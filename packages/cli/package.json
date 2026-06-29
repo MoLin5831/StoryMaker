@@ -1,5 +1,5 @@
 {
-  "name": "@storyos/cli",
+  "name": "storymaker",
   "version": "0.0.0",
   "private": false,
   "description": "StoryMaker command line interface for local-first narrative engineering workflows.",
@@ -21,9 +21,6 @@
     "dist",
     "package.json"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
   "scripts": {
     "build": "node ../../scripts/build-cli-package.mjs",
     "typecheck": "tsc --project tsconfig.json --noEmit",

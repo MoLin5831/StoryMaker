@@ -2,10 +2,10 @@
 
 ## 当前包名
 
-当前 npm 包名是：
+计划发布的 npm 包名是：
 
 ```text
-@storyos/cli
+storymaker
 ```
 
 它提供两个命令：
@@ -19,21 +19,15 @@ storyctl
 
 ## 当前限制
 
-`@storymaker/cli` 尚未发布。用户暂时不要运行：
-
-```bash
-npm install -g @storymaker/cli
-```
-
-在正式增加并验证 `@storymaker/cli` 之前，请安装或打包 `@storyos/cli`，并使用其中的 `storymaker` 命令。
+`storymaker` 作为 npm 包名需要在发布前再次确认 registry 权限和可用性。2026-06-29 查询 npm registry 时，该名称返回过“曾被取消发布”的信息，因此正式发布前必须确认当前账号是否可以发布该包名；如果 npm registry 限制该名称，需要先完成命名风险评审，而不是临时改回其他包名。
 
 ## 发布规则
 
-1. 当前里程碑继续发布 `@storyos/cli`。
+1. 当前里程碑按 `storymaker` 路线发布。
 2. 所有用户文档、适配器和日常流程优先使用 `storymaker`。
 3. 保留 `storyctl` 作为兼容命令。
 4. 不在没有迁移方案的情况下移除 `storyctl`。
-5. 如果未来增加 `@storymaker/cli`，需要单独验证包内容、bin 暴露方式和迁移说明。
+5. 发布前必须执行真实 tarball 安装验证，并确认 `storymaker` 与 `storyctl` 两个命令都能从安装包运行。
 
 ## 发布前检查
 
@@ -47,7 +41,7 @@ corepack pnpm release:check
 
 如果只需要验证 npm 包本身，可运行：
 
-发布 `@storyos/cli` 前运行：
+发布 `storymaker` 前运行：
 
 ```bash
 corepack pnpm package:cli-smoke
@@ -60,7 +54,7 @@ corepack pnpm package:cli-smoke
 - `dist/dashboard/index.js` 存在。
 - `storymaker --help`、`storymaker init`、`storymaker status`、`storymaker dashboard --once --port 0` 可以从安装包运行。
 
-如果未来增加 `@storymaker/cli`，对应任务必须包含同等级别的真实 tarball 安装验证，并说明 `storymaker` 与 `storyctl` 两个命令如何暴露。
+如果未来改变 npm 包名，对应任务必须包含同等级别的真实 tarball 安装验证，并说明 `storymaker` 与 `storyctl` 两个命令如何暴露。
 
 ## 平台启动器
 

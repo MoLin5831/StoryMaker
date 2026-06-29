@@ -1,5 +1,5 @@
 {
-  "name": "@storyos/root",
+  "name": "storymaker-root",
   "version": "0.0.0",
   "private": true,
   "license": "MIT",
@@ -9,7 +9,7 @@
   "scripts": {
     "build": "corepack pnpm -r --filter \"./packages/*\" typecheck",
     "build:cli-runtime": "node scripts/build-cli-runtime.mjs",
-    "build:dashboard": "corepack pnpm --filter @storyos/cli build && corepack pnpm --filter ./apps/dashboard build",
+    "build:dashboard": "corepack pnpm --filter storymaker build && corepack pnpm --filter ./apps/dashboard build",
     "format": "biome format --write package.json biome.json vitest.config.ts",
     "lint": "biome lint .",
     "package:binaries": "node scripts/package-binaries.mjs",
@@ -47,5 +47,9 @@
   },
   "engines": {
     "node": ">=24.0.0"
+  },
+  "volta": {
+    "node": "24.18.0",
+    "pnpm": "10.17.1"
   }
 }

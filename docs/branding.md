@@ -24,13 +24,13 @@ storyctl
 
 ## npm 包名
 
-当前 npm 包名是：
+计划发布的 npm 包名是：
 
 ```text
-@storyos/cli
+storymaker
 ```
 
-这个包会暴露 `storymaker` 和 `storyctl` 两个命令。`@storymaker/cli` 尚未发布，安装说明不要引导用户使用它。
+这个包会暴露 `storymaker` 和 `storyctl` 两个命令。安装说明应优先引导用户使用 `storymaker` 命令，`storyctl` 只作为兼容入口出现。
 
 ## 本地运行状态目录
 

@@ -45,7 +45,7 @@ delete cliSmokeEnv.INIT_CWD;
 delete cliSmokeEnv.STORYOS_CWD;
 
 try {
-  run("corepack", ["pnpm", "--filter", "@storyos/cli", "build"]);
+  run("corepack", ["pnpm", "--filter", "storymaker", "build"]);
 
   const pack = run("npm", ["pack", "--pack-destination", tempDir], {
     cwd: cliDir
@@ -72,7 +72,7 @@ try {
     cwd: tempDir
   });
 
-  const installedPackageDir = join(tempDir, "node_modules", "@storyos", "cli");
+  const installedPackageDir = join(tempDir, "node_modules", "storymaker");
   const installedCli = join(installedPackageDir, "dist", "index.js");
 
   await assertFileExists(installedCli);

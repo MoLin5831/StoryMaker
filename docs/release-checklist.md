@@ -27,7 +27,7 @@ corepack pnpm release:check
 
 ## 2. npm 包检查
 
-当前 npm 包名仍为 `@storyos/cli`，安装后推荐使用 `storymaker` 命令。
+计划发布的 npm 包名为 `storymaker`，安装后推荐使用 `storymaker` 命令，同时保留 `storyctl` 兼容命令。
 
 发布包必须满足：
 
@@ -64,12 +64,13 @@ npm pack --dry-run
 ```
 
 4. 确认 tarball 内容无示例项目、无 `.dev/`、无 `.storyos/story.db`、无本地密钥或环境文件。
-5. 发布 `@storyos/cli`。
+5. 发布 `storymaker`。
 6. 发布后用全新临时目录安装并运行：
 
 ```bash
-npm install -g @storyos/cli
+npm install -g storymaker
 storymaker --help
+storyctl --help
 storymaker init --type superlong_webnovel --profile production
 storymaker status
 ```

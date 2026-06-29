@@ -4,7 +4,9 @@
 
 ## 安装说明
 
-当前 npm 包名是 `@storyos/cli`。它提供推荐命令 `storymaker`，也保留兼容命令 `storyctl`。`@storymaker/cli` 尚未发布。
+计划发布的 npm 包名是 `storymaker`。它提供推荐命令 `storymaker`，也保留兼容命令 `storyctl`。
+
+StoryMaker 当前要求 Node.js 24 或更新版本。源码仓库提供 `.nvmrc`、`.node-version` 和 Volta 配置；如果你使用 nvm、fnm、asdf 或 Volta，可以直接切换到仓库声明的版本。版本要求的原因见 [Node.js 版本要求](node-requirements.md)。
 
 ## 1. 创建项目
 

@@ -43,7 +43,7 @@
       "@storyos/adapters-claude": [
         "packages/adapters-claude/src/index.ts"
       ],
-      "@storyos/cli": [
+      "storymaker": [
         "packages/cli/src/index.ts"
       ]
     }
