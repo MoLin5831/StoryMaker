@@ -668,6 +668,7 @@ type DashboardModule = {
 };
 
 const DASHBOARD_BUILD_COMMAND = "corepack pnpm build:dashboard";
+const DASHBOARD_MODULE_PATH = "../../../apps/dashboard/dist/index.js";
 
 export const HELP_TEXT = `StoryMaker command line interface
 
@@ -3130,7 +3131,7 @@ const loadDashboardModule = async (): Promise<DashboardModule> => {
   let module: Partial<DashboardModule>;
 
   try {
-    module = (await import("../../../apps/dashboard/dist/index.js")) as Partial<DashboardModule>;
+    module = (await import(DASHBOARD_MODULE_PATH)) as Partial<DashboardModule>;
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     throw new CliError(
