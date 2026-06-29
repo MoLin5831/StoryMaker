@@ -1,0 +1,33 @@
+project:
+  title: "Untitled Screenplay"
+  content_type: "screenplay"
+  workflow_profile: "standard"
+  language: "zh-CN"
+  target_words: 30000
+  target_units: 60
+  unit_name: "scene"
+
+writing:
+  rolling_plan_units: 8
+  review_frequency: "every_scene"
+  output_format: "md"
+
+production:
+  interaction_mode: "guided_auto"
+  auto_produce_unit: true
+  stop_after_unit_for_user_acceptance: true
+  progress_visible: true
+
+knowledge:
+  wiki_required: true
+  search_mode: "keyword"
+  fact_extraction_required: true
+
+quality:
+  ai_taste_gate: "required"
+  continuity_gate: "standard"
+
+adapters:
+  installed: []
+  mcp:
+    enabled: false

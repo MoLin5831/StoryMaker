@@ -1,0 +1,7 @@
+* text=auto eol=lf
+
+*.exe binary
+*.docx binary
+*.epub binary
+*.db binary
+*.sqlite binary

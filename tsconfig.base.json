@@ -1,0 +1,51 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": [
+      "ES2022"
+    ],
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@storyos/core": [
+        "packages/core/src/index.ts"
+      ],
+      "@storyos/schemas": [
+        "packages/schemas/src/index.ts"
+      ],
+      "@storyos/workflow-engine": [
+        "packages/workflow-engine/src/index.ts"
+      ],
+      "@storyos/knowledge": [
+        "packages/knowledge/src/index.ts"
+      ],
+      "@storyos/indexer": [
+        "packages/indexer/src/index.ts"
+      ],
+      "@storyos/prompts": [
+        "packages/prompts/src/index.ts"
+      ],
+      "@storyos/quality-gates": [
+        "packages/quality-gates/src/index.ts"
+      ],
+      "@storyos/exporters": [
+        "packages/exporters/src/index.ts"
+      ],
+      "@storyos/adapters-codex": [
+        "packages/adapters-codex/src/index.ts"
+      ],
+      "@storyos/adapters-claude": [
+        "packages/adapters-claude/src/index.ts"
+      ],
+      "@storyos/cli": [
+        "packages/cli/src/index.ts"
+      ]
+    }
+  }
+}

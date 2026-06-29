@@ -1,0 +1,42 @@
+project:
+  title: "Untitled Novel"
+  content_type: "novel"
+  workflow_profile: "longform"
+  language: "zh-CN"
+  target_words: 200000
+  target_units: 80
+  unit_name: "chapter"
+
+writing:
+  words_per_unit_min: 2000
+  words_per_unit_max: 3500
+  rolling_plan_units: 8
+  review_frequency: "every_unit"
+  replan_frequency: "every_10_units"
+  output_dir: "outputs/chapters"
+  output_format: "md"
+  chapter_filename: "numbered_title"
+  chapter_heading: "numbered_title"
+  chapter_number_padding: 3
+
+production:
+  interaction_mode: "guided_auto"
+  auto_produce_unit: true
+  auto_revise_before_user_review: true
+  stop_after_unit_for_user_acceptance: true
+  progress_visible: true
+
+knowledge:
+  wiki_required: true
+  search_mode: "hybrid"
+  fact_extraction_required: true
+
+quality:
+  ai_taste_gate: "required"
+  reader_review: "every_5_units"
+  continuity_gate: "strict"
+
+adapters:
+  installed: []
+  mcp:
+    enabled: false

@@ -1,0 +1,47 @@
+{
+  "name": "@storyos/cli",
+  "version": "0.0.0",
+  "private": false,
+  "description": "StoryOS command line interface for local-first narrative engineering workflows.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "storymaker": "./dist/index.js",
+    "storyctl": "./dist/index.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "package.json"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc --project tsconfig.build.json && node -e \"const fs=require('node:fs');const p='dist/index.js';let s=fs.readFileSync(p,'utf8');if(!s.startsWith('#!/usr/bin/env node')) s='#!/usr/bin/env node\\n'+s;fs.writeFileSync(p,s);\"",
+    "typecheck": "tsc --project tsconfig.json --noEmit",
+    "test": "tsx --test \"src/**/*.test.ts\"",
+    "pack:dry-run": "npm pack --dry-run"
+  },
+  "dependencies": {
+    "@storyos/adapters-claude": "0.0.0",
+    "@storyos/adapters-codex": "0.0.0",
+    "@storyos/core": "0.0.0",
+    "@storyos/exporters": "0.0.0",
+    "@storyos/indexer": "0.0.0",
+    "@storyos/knowledge": "0.0.0",
+    "@storyos/schemas": "0.0.0",
+    "@storyos/workflow-engine": "0.0.0",
+    "zod": "^4.1.11"
+  },
+  "devDependencies": {
+    "@types/node": "^24.6.0"
+  }
+}

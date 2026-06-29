@@ -1,0 +1,33 @@
+project:
+  title: "Untitled Interactive Story"
+  content_type: "interactive_story"
+  workflow_profile: "production"
+  language: "zh-CN"
+  target_units: 80
+  unit_name: "node"
+
+writing:
+  rolling_plan_units: 10
+  review_frequency: "every_node"
+  output_format: "md"
+
+production:
+  interaction_mode: "guided_auto"
+  auto_produce_unit: true
+  stop_after_unit_for_user_acceptance: true
+  progress_visible: true
+  allow_batch_production: false
+
+knowledge:
+  wiki_required: true
+  search_mode: "hybrid"
+  fact_extraction_required: true
+
+quality:
+  ai_taste_gate: "required"
+  continuity_gate: "strict"
+
+adapters:
+  installed: []
+  mcp:
+    enabled: false

@@ -1,0 +1,46 @@
+project:
+  title: "未定名项目"
+  content_type: "screenplay"
+  workflow_profile: "standard"
+  language: "zh-CN"
+  target_platform: "未指定"
+  target_words: 1500000
+  target_units: 650
+  unit_name: "chapter"
+
+writing:
+  words_per_unit_min: 2000
+  words_per_unit_max: 2500
+  rolling_plan_units: 10
+  review_frequency: "every_unit"
+  replan_frequency: "every_10_units"
+  output_dir: "outputs/chapters"
+  output_format: "md"
+  chapter_filename: "numbered_title"
+  chapter_heading: "numbered_title"
+  chapter_number_padding: 4
+
+production:
+  interaction_mode: "guided_auto"
+  auto_produce_unit: true
+  auto_revise_before_user_review: true
+  stop_after_unit_for_user_acceptance: true
+  progress_visible: true
+  allow_batch_production: true
+  max_batch_units_without_user_review: 5
+
+knowledge:
+  wiki_required: true
+  search_mode: "hybrid"
+  fact_extraction_required: true
+
+quality:
+  ai_taste_gate: "required"
+  commercial_review: "required"
+  reader_review: "every_5_units"
+  continuity_gate: "required"
+
+adapters:
+  installed: []
+  mcp:
+    enabled: false

@@ -1,0 +1,33 @@
+project:
+  title: "Untitled Short Drama"
+  content_type: "short_drama"
+  workflow_profile: "standard"
+  language: "zh-CN"
+  target_units: 24
+  unit_name: "episode"
+
+writing:
+  rolling_plan_units: 6
+  review_frequency: "every_episode"
+  output_format: "md"
+
+production:
+  interaction_mode: "guided_auto"
+  auto_produce_unit: true
+  stop_after_unit_for_user_acceptance: true
+  progress_visible: true
+
+knowledge:
+  wiki_required: true
+  search_mode: "keyword"
+  fact_extraction_required: true
+
+quality:
+  ai_taste_gate: "required"
+  commercial_review: "required"
+  continuity_gate: "standard"
+
+adapters:
+  installed: []
+  mcp:
+    enabled: false
