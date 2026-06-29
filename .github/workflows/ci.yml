@@ -38,6 +38,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Source CLI smoke
+        run: |
+          pnpm storymaker --help
+          pnpm storyctl --help
+
       - name: Secret scan
         run: pnpm scan:secrets
 
@@ -46,6 +51,18 @@ jobs:
 
       - name: Build
         run: pnpm build:dashboard
+
+      - name: Platform launcher smoke
+        run: |
+          pnpm package:binaries
+          test -x bin/platform/storyctl-linux
+          test -x bin/platform/storyctl-macos
+          bin/platform/storyctl-linux --version
+          bin/platform/storyctl-macos --version
+          node bin/platform/storyctl.exe --version
+
+      - name: Package smoke
+        run: pnpm package:cli-smoke
 
       - name: Type check
         run: pnpm -r typecheck

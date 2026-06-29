@@ -2,7 +2,7 @@ import { constants } from "node:fs";
 import { access, mkdir, readFile, readdir, rename, stat, writeFile } from "node:fs/promises";
 import process from "node:process";
 import { basename, dirname, extname, join, relative, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 import {
   findMissingCodexAgentsRules,
@@ -70,6 +70,7 @@ import {
   validateWorkUnit,
   type WorkUnit
 } from "../../workflow-engine/dist/work-unit.js";
+import { getDashboardModulePath, getTemplateRoot } from "./runtime-assets.js";
 
 export const VERSION = "0.0.0";
 
@@ -664,11 +665,11 @@ type DashboardModule = {
     cwd: string;
     host?: string;
     port?: number;
+    runner?: typeof runStoryctl;
   }) => Promise<DashboardServerHandle>;
 };
 
 const DASHBOARD_BUILD_COMMAND = "corepack pnpm build:dashboard";
-const DASHBOARD_MODULE_PATH = "../../../apps/dashboard/dist/index.js";
 
 export const HELP_TEXT = `StoryMaker command line interface
 
@@ -738,7 +739,7 @@ Options:
   --once        Start dashboard, print the URL, then stop; intended for automation.
   --continue    Continue to the next production run after approve.
   --json        Print machine-readable JSON for agent-facing commands.
-  --force       Overwrite StoryOS-managed template files.
+  --force       Overwrite StoryMaker-managed template files.
   -h, --help    Show this help text.
   -v, --version Show the CLI version.
 
@@ -1747,9 +1748,6 @@ adapters:
     enabled: ${config.adapters.mcp.enabled}
 `;
 
-const getTemplateRoot = (): string =>
-  resolve(dirname(fileURLToPath(import.meta.url)), "../../..", "templates", "base");
-
 const directoryPaths = [
   "bible",
   "knowledge",
@@ -1832,7 +1830,7 @@ export const initializeProject = async (options: InitOptions): Promise<void> => 
 
       if (await fileExists(targetPath)) {
         throw new CliError(
-          `Refusing to overwrite existing file: ${relativePath}. Use --force to replace StoryOS-managed files.`
+          `Refusing to overwrite existing file: ${relativePath}. Use --force to replace StoryMaker-managed files.`
         );
       }
     }
@@ -1932,7 +1930,7 @@ export const installCodexAdapter = async (
   const projectYamlPath = join(options.cwd, "project.yaml");
 
   if (!(await fileExists(projectYamlPath))) {
-    throw new CliError("Not a StoryOS project: missing project.yaml. Run storyctl init first.");
+    throw new CliError("Not a StoryMaker project: missing project.yaml. Run storymaker init first.");
   }
 
   if (!options.cliOnly) {
@@ -1982,7 +1980,7 @@ export const installClaudeAdapter = async (
   const projectYamlPath = join(options.cwd, "project.yaml");
 
   if (!(await fileExists(projectYamlPath))) {
-    throw new CliError("Not a StoryOS project: missing project.yaml. Run storyctl init first.");
+    throw new CliError("Not a StoryMaker project: missing project.yaml. Run storymaker init first.");
   }
 
   if (!options.cliOnly) {
@@ -3041,7 +3039,7 @@ export const readResume = async (cwd: string): Promise<ResumeReport> => {
   const projectYamlPath = join(cwd, "project.yaml");
 
   if (!(await fileExists(projectYamlPath))) {
-    throw new CliError("Not a StoryOS project: missing project.yaml. Run storyctl init first.");
+    throw new CliError("Not a StoryMaker project: missing project.yaml. Run storymaker init first.");
   }
 
   const workflowState = await readWorkflowStateForResume(cwd);
@@ -3070,7 +3068,7 @@ export const readStatus = async (cwd: string): Promise<StatusReport> => {
   const projectYamlPath = join(cwd, "project.yaml");
 
   if (!(await fileExists(projectYamlPath))) {
-    throw new CliError("Not a StoryOS project: missing project.yaml. Run storyctl init first.");
+    throw new CliError("Not a StoryMaker project: missing project.yaml. Run storymaker init first.");
   }
 
   const config = parseProjectYaml(await readFile(projectYamlPath, "utf8"));
@@ -3129,9 +3127,10 @@ Pending review: ${report.pendingReview}
 
 const loadDashboardModule = async (): Promise<DashboardModule> => {
   let module: Partial<DashboardModule>;
+  const dashboardModulePath = getDashboardModulePath();
 
   try {
-    module = (await import(DASHBOARD_MODULE_PATH)) as Partial<DashboardModule>;
+    module = (await import(pathToFileURL(dashboardModulePath).href)) as Partial<DashboardModule>;
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     throw new CliError(
@@ -3460,7 +3459,7 @@ export const readContext = async (options: ContextOptions): Promise<ContextRepor
   const projectYamlPath = join(options.cwd, "project.yaml");
 
   if (!(await fileExists(projectYamlPath))) {
-    throw new CliError("Not a StoryOS project: missing project.yaml. Run storyctl init first.");
+    throw new CliError("Not a StoryMaker project: missing project.yaml. Run storymaker init first.");
   }
 
   const indexStatus = await describeIndexStatus(options.cwd);
@@ -3793,7 +3792,7 @@ export const buildProduceWorkPacket = async (
   const projectYamlPath = join(options.cwd, "project.yaml");
 
   if (!(await fileExists(projectYamlPath))) {
-    throw new CliError("Not a StoryOS project: missing project.yaml. Run storyctl init first.");
+    throw new CliError("Not a StoryMaker project: missing project.yaml. Run storymaker init first.");
   }
 
   const config = parseProjectYaml(await readFile(projectYamlPath, "utf8"));
@@ -4590,7 +4589,7 @@ export const submitDraft = async (options: DraftSubmitOptions): Promise<DraftSub
   const projectYamlPath = join(options.cwd, "project.yaml");
 
   if (!(await fileExists(projectYamlPath))) {
-    throw new CliError("Not a StoryOS project: missing project.yaml. Run storyctl init first.");
+    throw new CliError("Not a StoryMaker project: missing project.yaml. Run storymaker init first.");
   }
 
   const sourcePath = resolve(options.cwd, options.fromFile);
@@ -4862,7 +4861,7 @@ export const produceNext = async (options: ProduceNextOptions): Promise<ProduceN
   const projectYamlPath = join(options.cwd, "project.yaml");
 
   if (!(await fileExists(projectYamlPath))) {
-    throw new CliError("Not a StoryOS project: missing project.yaml. Run storyctl init first.");
+    throw new CliError("Not a StoryMaker project: missing project.yaml. Run storymaker init first.");
   }
 
   const workflowState = await readWorkflowStateForResume(options.cwd);
@@ -5430,7 +5429,7 @@ const writeApproveCheckpoint = async (
 
 export const approveUnit = async (options: ApproveOptions): Promise<ApproveReport> => {
   if (!(await fileExists(join(options.cwd, "project.yaml")))) {
-    throw new CliError("Not a StoryOS project: missing project.yaml. Run storyctl init first.");
+    throw new CliError("Not a StoryMaker project: missing project.yaml. Run storymaker init first.");
   }
 
   const workflowState = await readWorkflowStateForResume(options.cwd);
@@ -5615,7 +5614,7 @@ const moveStagedOutputToRejectedRevision = async (
 
 export const rejectUnit = async (options: RejectOptions): Promise<RejectReport> => {
   if (!(await fileExists(join(options.cwd, "project.yaml")))) {
-    throw new CliError("Not a StoryOS project: missing project.yaml. Run storyctl init first.");
+    throw new CliError("Not a StoryMaker project: missing project.yaml. Run storymaker init first.");
   }
 
   const workflowState = await readWorkflowStateForResume(options.cwd);
@@ -5739,7 +5738,7 @@ Placeholder revised draft. This file is staged for user review and is not canon.
 ## Draft Placeholder
 
 The real revision adapter has not been connected yet. This deterministic revision
-proves StoryOS can preserve the rejected draft, create a new staged version, and
+proves StoryMaker can preserve the rejected draft, create a new staged version, and
 return the work unit to user review without committing canon facts.
 `;
 
@@ -5758,7 +5757,7 @@ return the work unit to user review without committing canon facts.
 
 export const reviseUnit = async (options: ReviseOptions): Promise<ReviseReport> => {
   if (!(await fileExists(join(options.cwd, "project.yaml")))) {
-    throw new CliError("Not a StoryOS project: missing project.yaml. Run storyctl init first.");
+    throw new CliError("Not a StoryMaker project: missing project.yaml. Run storymaker init first.");
   }
 
   const workflowState = await readWorkflowStateForResume(options.cwd);
@@ -6169,7 +6168,7 @@ const rewriteCommittedKnowledgeTitle = async (cwd: string, workUnit: WorkUnit): 
 
 export const renameUnitTitle = async (options: RenameOptions): Promise<RenameReport> => {
   if (!(await fileExists(join(options.cwd, "project.yaml")))) {
-    throw new CliError("Not a StoryOS project: missing project.yaml. Run storyctl init first.");
+    throw new CliError("Not a StoryMaker project: missing project.yaml. Run storymaker init first.");
   }
 
   const config = parseProjectYaml(await readFile(join(options.cwd, "project.yaml"), "utf8"));
@@ -6366,7 +6365,7 @@ const renderReplanChangeLogEntry = (report: ReplanReport, now: string): string =
 
 export const replanProject = async (options: ReplanOptions): Promise<ReplanReport> => {
   if (!(await fileExists(join(options.cwd, "project.yaml")))) {
-    throw new CliError("Not a StoryOS project: missing project.yaml. Run storyctl init first.");
+    throw new CliError("Not a StoryMaker project: missing project.yaml. Run storymaker init first.");
   }
 
   const report: ReplanReport = {
@@ -6453,7 +6452,7 @@ export const exportStory = async (options: StoryExportOptions): Promise<StoryExp
   const projectYamlPath = join(options.cwd, "project.yaml");
 
   if (!(await fileExists(projectYamlPath))) {
-    throw new CliError("Not a StoryOS project: missing project.yaml. Run storyctl init first.");
+    throw new CliError("Not a StoryMaker project: missing project.yaml. Run storymaker init first.");
   }
 
   const config = parseProjectYaml(await readFile(projectYamlPath, "utf8"));
@@ -6562,7 +6561,7 @@ export const importChapters = async (
   const projectYamlPath = join(options.cwd, "project.yaml");
 
   if (!(await fileExists(projectYamlPath))) {
-    throw new CliError("Not a StoryOS project: missing project.yaml. Run storyctl init first.");
+    throw new CliError("Not a StoryMaker project: missing project.yaml. Run storymaker init first.");
   }
 
   const sourceFiles = await collectImportMarkdownFiles(options.fromDir);
@@ -6686,7 +6685,7 @@ export const enableMcp = async (options: McpEnableOptions): Promise<McpEnableRep
   const projectYamlPath = join(options.cwd, "project.yaml");
 
   if (!(await fileExists(projectYamlPath))) {
-    throw new CliError("Not a StoryOS project: missing project.yaml. Run storyctl init first.");
+    throw new CliError("Not a StoryMaker project: missing project.yaml. Run storymaker init first.");
   }
 
   const config = parseProjectYaml(await readFile(projectYamlPath, "utf8"));
@@ -6892,7 +6891,7 @@ export const runStoryctl = async (
     try {
       const initOptions = parseInitArgs(commandArgs, options);
       await initializeProject(initOptions);
-      io.stdout.write(`Initialized StoryOS project in ${initOptions.cwd}\n`);
+      io.stdout.write(`Initialized StoryMaker project in ${initOptions.cwd}\n`);
       return 0;
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
@@ -6945,14 +6944,15 @@ export const runStoryctl = async (
       const dashboardOptions = parseDashboardArgs(outputOptions.args, options);
 
       if (!(await fileExists(join(dashboardOptions.cwd, "project.yaml")))) {
-        throw new CliError("Not a StoryOS project: missing project.yaml. Run storyctl init first.");
+        throw new CliError("Not a StoryMaker project: missing project.yaml. Run storymaker init first.");
       }
 
       const dashboard = await loadDashboardModule();
       server = await dashboard.startDashboardServer({
         cwd: dashboardOptions.cwd,
         host: dashboardOptions.host,
-        port: dashboardOptions.port
+        port: dashboardOptions.port,
+        runner: runStoryctl
       });
 
       if (dashboardOptions.once) {
@@ -7024,7 +7024,7 @@ export const runStoryctl = async (
       const indexOptions = parseIndexArgs(commandArgs, options);
 
       if (!(await fileExists(join(indexOptions.cwd, "project.yaml")))) {
-        throw new CliError("Not a StoryOS project: missing project.yaml. Run storyctl init first.");
+        throw new CliError("Not a StoryMaker project: missing project.yaml. Run storymaker init first.");
       }
 
       io.stdout.write(formatIndexReport(await indexStoryProject(indexOptions)));
@@ -7041,7 +7041,7 @@ export const runStoryctl = async (
       const searchOptions = parseSearchArgs(commandArgs, options);
 
       if (!(await fileExists(join(searchOptions.cwd, "project.yaml")))) {
-        throw new CliError("Not a StoryOS project: missing project.yaml. Run storyctl init first.");
+        throw new CliError("Not a StoryMaker project: missing project.yaml. Run storymaker init first.");
       }
 
       io.stdout.write(formatSearchReport(await searchStoryIndex(searchOptions)));

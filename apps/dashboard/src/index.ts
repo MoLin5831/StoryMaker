@@ -4,7 +4,6 @@ import { readFile } from "node:fs/promises";
 import { basename, join } from "node:path";
 import { URLSearchParams } from "node:url";
 
-import { runStoryctl } from "../../../packages/cli/dist/index.js";
 import {
   readKnowledgeBrowser,
   type KnowledgeBrowserEntry,
@@ -141,6 +140,10 @@ type CliRunner = (
   options: { cwd: string; now?: string }
 ) => Promise<number>;
 
+const missingCliRunner: CliRunner = async () => {
+  throw new DashboardError("Dashboard review actions require a StoryMaker CLI runner.");
+};
+
 type RenderDashboardHtmlOptions = {
   csrfToken?: string;
 };
@@ -161,7 +164,7 @@ const readProjectYaml = async (cwd: string): Promise<string> => {
       "code" in error &&
       (error as { code?: string }).code === "ENOENT"
     ) {
-      throw new DashboardError("Not a StoryOS project: missing project.yaml.");
+      throw new DashboardError("Not a StoryMaker project: missing project.yaml.");
     }
 
     throw error;
@@ -854,7 +857,7 @@ export const renderDashboardHtml = (
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${escapeHtml(snapshot.project.title || "StoryOS Dashboard")}</title>
+  <title>${escapeHtml(snapshot.project.title || "StoryMaker Dashboard")}</title>
   <style>
     :root {
       color: #17201b;
@@ -1157,7 +1160,7 @@ export const renderDashboardHtml = (
   <main>
     <aside class="review-rail">
       <section>
-        <h1>${escapeHtml(snapshot.project.title || "Untitled StoryOS Project")}</h1>
+        <h1>${escapeHtml(snapshot.project.title || "Untitled StoryMaker Project")}</h1>
         <dl>
           <dt>Content</dt>
           <dd>${escapeHtml(snapshot.project.contentType || "unknown")}</dd>
@@ -1370,7 +1373,7 @@ export const startDashboardServer = async (
 
 export const runDashboardReviewAction = async (
   options: RunDashboardReviewActionOptions,
-  runner: CliRunner = runStoryctl
+  runner: CliRunner = missingCliRunner
 ): Promise<DashboardReviewActionResult> => {
   if (!options.unit.trim()) {
     throw new DashboardError("Review action requires a unit.");

@@ -69,7 +69,7 @@ const readProjectYaml = async (cwd: string): Promise<string> => {
       "code" in error &&
       (error as { code?: string }).code === "ENOENT"
     ) {
-      throw new StoryMcpError("Not a StoryOS project: missing project.yaml.");
+      throw new StoryMcpError("Not a StoryMaker project: missing project.yaml.");
     }
 
     throw error;

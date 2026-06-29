@@ -447,14 +447,14 @@ describe("runStoryctl", () => {
     assert.match(capture.output.stderr, /Unknown command: unknown-command/);
   });
 
-  it("initializes a CLI-only StoryOS project", async () => {
+  it("initializes a CLI-only StoryMaker project", async () => {
     const cwd = await createTempDir();
 
     try {
       const result = await runInit(cwd);
 
       assert.equal(result.exitCode, 0);
-      assert.match(result.capture.output.stdout, /Initialized StoryOS project/);
+      assert.match(result.capture.output.stdout, /Initialized StoryMaker project/);
       assert.equal(result.capture.output.stderr, "");
 
       for (const relativePath of [
@@ -1000,7 +1000,7 @@ describe("runStoryctl", () => {
     }
   });
 
-  it("returns a non-zero exit code outside a StoryOS project", async () => {
+  it("returns a non-zero exit code outside a StoryMaker project", async () => {
     const cwd = await createTempDir();
 
     try {
@@ -1008,7 +1008,7 @@ describe("runStoryctl", () => {
 
       assert.equal(result.exitCode, 1);
       assert.match(result.capture.output.stdout, /\[error\] project\.yaml:/);
-      assert.match(result.capture.output.stdout, /storyctl init/);
+      assert.match(result.capture.output.stdout, /storymaker init/);
     } finally {
       await rm(cwd, {
         force: true,
@@ -1093,15 +1093,15 @@ describe("runStoryctl", () => {
     }
   });
 
-  it("returns a clear error outside a StoryOS project for status", async () => {
+  it("returns a clear error outside a StoryMaker project for status", async () => {
     const cwd = await createTempDir();
 
     try {
       const result = await runStatus(cwd);
 
       assert.equal(result.exitCode, 1);
-      assert.match(result.capture.output.stderr, /Not a StoryOS project/);
-      assert.match(result.capture.output.stderr, /storyctl init/);
+      assert.match(result.capture.output.stderr, /Not a StoryMaker project/);
+      assert.match(result.capture.output.stderr, /storymaker init/);
     } finally {
       await rm(cwd, {
         force: true,
@@ -1122,7 +1122,7 @@ describe("runStoryctl", () => {
       assert.equal(result.capture.output.stdout, "");
       assert.equal(json.command, "status");
       assert.equal(json.status, "error");
-      assert.match(String(error.message), /Not a StoryOS project/);
+      assert.match(String(error.message), /Not a StoryMaker project/);
     } finally {
       await rm(cwd, {
         force: true,
@@ -1402,15 +1402,15 @@ describe("runStoryctl", () => {
     }
   });
 
-  it("returns a clear error outside a StoryOS project for resume", async () => {
+  it("returns a clear error outside a StoryMaker project for resume", async () => {
     const cwd = await createTempDir();
 
     try {
       const result = await runResume(cwd);
 
       assert.equal(result.exitCode, 1);
-      assert.match(result.capture.output.stderr, /Not a StoryOS project/);
-      assert.match(result.capture.output.stderr, /storyctl init/);
+      assert.match(result.capture.output.stderr, /Not a StoryMaker project/);
+      assert.match(result.capture.output.stderr, /storymaker init/);
     } finally {
       await rm(cwd, {
         force: true,
@@ -2534,15 +2534,15 @@ Mara followed the mirror-city rainline for what felt like an eternity while she 
     }
   });
 
-  it("returns a clear error outside a StoryOS project for context", async () => {
+  it("returns a clear error outside a StoryMaker project for context", async () => {
     const cwd = await createTempDir();
 
     try {
       const result = await runContext(cwd);
 
       assert.equal(result.exitCode, 1);
-      assert.match(result.capture.output.stderr, /Not a StoryOS project/);
-      assert.match(result.capture.output.stderr, /storyctl init/);
+      assert.match(result.capture.output.stderr, /Not a StoryMaker project/);
+      assert.match(result.capture.output.stderr, /storymaker init/);
     } finally {
       await rm(cwd, {
         force: true,
@@ -4316,15 +4316,15 @@ Mara followed the mirror-city rainline for what felt like an eternity while she 
     }
   });
 
-  it("returns a clear error outside a StoryOS project for produce next", async () => {
+  it("returns a clear error outside a StoryMaker project for produce next", async () => {
     const cwd = await createTempDir();
 
     try {
       const result = await runProduceNext(cwd);
 
       assert.equal(result.exitCode, 1);
-      assert.match(result.capture.output.stderr, /Not a StoryOS project/);
-      assert.match(result.capture.output.stderr, /storyctl init/);
+      assert.match(result.capture.output.stderr, /Not a StoryMaker project/);
+      assert.match(result.capture.output.stderr, /storymaker init/);
     } finally {
       await rm(cwd, {
         force: true,

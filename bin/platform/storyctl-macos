@@ -1,5 +1,0 @@
-#!/usr/bin/env node
-import { main } from "../../packages/cli/dist/index.js";
-
-process.env.STORYOS_PACKAGED_PLATFORM = "macos";
-await main(process.argv.slice(2));

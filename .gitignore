@@ -15,6 +15,10 @@ examples/superlong-webnovel/
 StoryOS-*.md
 StoryMaker-*.md
 
+bin/platform/storyctl.exe
+bin/platform/storyctl-linux
+bin/platform/storyctl-macos
+
 *.log
 *.tmp
 

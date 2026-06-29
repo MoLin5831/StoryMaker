@@ -200,7 +200,7 @@ Do not commit canon knowledge before user approval.
     relativePath: ".claude/skills/story-brief/SKILL.md",
     content: renderSkill(
       "story-brief",
-      "Gather a concise StoryOS project brief through storyctl.",
+      "Gather a concise StoryMaker project brief through storymaker.",
       `
 Use this skill when the user asks for current StoryMaker context or project progress.
 

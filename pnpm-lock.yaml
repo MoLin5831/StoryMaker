@@ -21,6 +21,9 @@ importers:
       '@biomejs/biome':
         specifier: ^2.5.1
         version: 2.5.1
+      esbuild:
+        specifier: ^0.28.1
+        version: 0.28.1
       tsx:
         specifier: ^4.20.6
         version: 4.22.4
@@ -38,34 +41,6 @@ importers:
   packages/adapters-codex: {}
 
   packages/cli:
-    dependencies:
-      '@storyos/adapters-claude':
-        specifier: link:../adapters-claude
-        version: link:../adapters-claude
-      '@storyos/adapters-codex':
-        specifier: link:../adapters-codex
-        version: link:../adapters-codex
-      '@storyos/core':
-        specifier: link:../core
-        version: link:../core
-      '@storyos/exporters':
-        specifier: link:../exporters
-        version: link:../exporters
-      '@storyos/indexer':
-        specifier: link:../indexer
-        version: link:../indexer
-      '@storyos/knowledge':
-        specifier: link:../knowledge
-        version: link:../knowledge
-      '@storyos/schemas':
-        specifier: link:../schemas
-        version: link:../schemas
-      '@storyos/workflow-engine':
-        specifier: link:../workflow-engine
-        version: link:../workflow-engine
-      zod:
-        specifier: ^4.1.11
-        version: 4.4.3
     devDependencies:
       '@types/node':
         specifier: ^24.6.0
