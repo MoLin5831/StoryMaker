@@ -1,5 +1,5 @@
 {
-  "name": "storymaker",
+  "name": "@molin05831/storymaker",
   "version": "0.1.0",
   "private": false,
   "description": "StoryMaker command line interface for local-first narrative engineering workflows.",

@@ -9,7 +9,7 @@
 - 统一用户可见产品名称为 `StoryMaker`。
 - 将 `storymaker` 作为推荐 CLI 命令，并保留 `storyctl` 作为兼容命令。
 - 明确当前本地运行状态目录为 `.storyos/`，用户不需要手动重命名。
-- 准备首次发布 npm 包 `storymaker`，暴露 `storymaker` 和 `storyctl` 两个命令。
+- 准备首次发布 npm 包 `@molin05831/storymaker`，暴露 `storymaker` 和 `storyctl` 两个命令。
 
 ## 0.0.0
 

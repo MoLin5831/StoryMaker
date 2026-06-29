@@ -46,7 +46,7 @@ Remove-Item Env:STORYOS_CWD
 - `storyctl` 是兼容命令，仍然可用。
 - `.storyos/` 是当前本地运行状态目录，请不要手动改名。
 - `STORYOS_CWD` 是当前 CLI 支持的项目路径环境变量。
-- `storymaker` 是计划发布的 npm 包名；安装后仍提供 `storymaker` 与 `storyctl` 两个命令。
+- `@molin05831/storymaker` 是 npm 安装包名；安装后仍提供 `storymaker` 与 `storyctl` 两个命令。
 
 这些名称属于当前兼容接口。没有专门的迁移任务时，不建议自行重命名。
 
@@ -112,16 +112,22 @@ Dashboard 依赖 workspace 中的 `dist` 构建产物。`corepack pnpm build`、
 
 ## npm 包
 
-计划发布包名是：
+发布包名是：
 
 ```text
-storymaker
+@molin05831/storymaker
 ```
 
 它提供两个命令：
 
 - `storymaker`：推荐给用户、新文档和新自动化使用。
 - `storyctl`：兼容命令，用于已有脚本和自动化。
+
+全局安装：
+
+```bash
+npm install -g @molin05831/storymaker
+```
 
 正式发布前请按 [发布策略](docs/publishing.md) 验证 npm registry 权限、tarball 内容和安装后 smoke test。
 

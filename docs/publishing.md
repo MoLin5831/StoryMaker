@@ -5,7 +5,7 @@
 计划发布的 npm 包名是：
 
 ```text
-storymaker
+@molin05831/storymaker
 ```
 
 它提供两个命令：
@@ -17,13 +17,13 @@ storyctl
 
 `storymaker` 是推荐给用户的命令。`storyctl` 是兼容命令，保留给已有脚本、适配器和自动化。
 
-## 当前限制
+## 命名说明
 
-`storymaker` 作为 npm 包名需要在发布前再次确认 registry 权限和可用性。2026-06-29 查询 npm registry 时，该名称返回过“曾被取消发布”的信息，因此正式发布前必须确认当前账号是否可以发布该包名；如果 npm registry 限制该名称，需要先完成命名风险评审，而不是临时改回其他包名。
+非 scoped 包名 `storymaker` 在 2026-06-29 发布时被 npm registry 拒绝，原因是它与现有包 `story-maker` 过于相似。因此当前发布包名改为 `@molin05831/storymaker`。命令名不变，用户仍使用 `storymaker`，兼容脚本仍可使用 `storyctl`。
 
 ## 发布规则
 
-1. 当前里程碑按 `storymaker` 路线发布。
+1. 当前里程碑按 `@molin05831/storymaker` 包名发布。
 2. 所有用户文档、适配器和日常流程优先使用 `storymaker`。
 3. 保留 `storyctl` 作为兼容命令。
 4. 不在没有迁移方案的情况下移除 `storyctl`。
@@ -41,7 +41,7 @@ corepack pnpm release:check
 
 如果只需要验证 npm 包本身，可运行：
 
-发布 `storymaker` 前运行：
+发布 `@molin05831/storymaker` 前运行：
 
 ```bash
 corepack pnpm package:cli-smoke

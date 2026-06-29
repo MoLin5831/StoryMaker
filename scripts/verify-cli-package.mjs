@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 
 const rootDir = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const cliDir = join(rootDir, "packages", "cli");
+const cliPackageJson = JSON.parse(await readFile(join(cliDir, "package.json"), "utf8"));
 
 const run = (command, args, options = {}) => {
   const executable = process.platform === "win32" ? "cmd.exe" : command;
@@ -45,7 +46,7 @@ delete cliSmokeEnv.INIT_CWD;
 delete cliSmokeEnv.STORYOS_CWD;
 
 try {
-  run("corepack", ["pnpm", "--filter", "storymaker", "build"]);
+  run("corepack", ["pnpm", "--filter", "./packages/cli", "build"]);
 
   const pack = run("npm", ["pack", "--pack-destination", tempDir], {
     cwd: cliDir
@@ -72,7 +73,7 @@ try {
     cwd: tempDir
   });
 
-  const installedPackageDir = join(tempDir, "node_modules", "storymaker");
+  const installedPackageDir = join(tempDir, "node_modules", ...cliPackageJson.name.split("/"));
   const installedCli = join(installedPackageDir, "dist", "index.js");
 
   await assertFileExists(installedCli);

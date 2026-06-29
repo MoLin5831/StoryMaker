@@ -24,10 +24,10 @@ storyctl
 
 ## npm 包名
 
-计划发布的 npm 包名是：
+npm 包名是：
 
 ```text
-storymaker
+@molin05831/storymaker
 ```
 
 这个包会暴露 `storymaker` 和 `storyctl` 两个命令。安装说明应优先引导用户使用 `storymaker` 命令，`storyctl` 只作为兼容入口出现。
