@@ -27,7 +27,7 @@
 ## 项目识别
 
 - 技术栈：TypeScript、Node.js、pnpm workspace、Biome、tsc、node:test、tsx。
-- 运行要求：`package.json` 声明 Node.js `>=20.0.0`，pnpm `10.17.1`。
+- 运行要求：`package.json` 声明 Node.js `>=24.0.0`，pnpm `10.17.1`。
 - Monorepo 结构：`packages/*` 和 `apps/dashboard`。
 - 主要入口：
   - CLI 源码：`packages/cli/src/index.ts`

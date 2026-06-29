@@ -8,4 +8,4 @@ These artifacts are deterministic Node-dependent platform launchers for the Stor
 - `storyctl-macos`
 - `storyctl-linux`
 
-The filenames keep `storyctl` for compatibility with existing StoryOS automation. They do not contain Node.js or the CLI source. They require Node.js 20 or newer on `PATH` and execute `packages/cli/dist/index.js`.
+The filenames keep `storyctl` for compatibility with existing StoryOS automation. They do not contain Node.js or the CLI source. They require Node.js 24 or newer on `PATH` and execute `packages/cli/dist/index.js`.

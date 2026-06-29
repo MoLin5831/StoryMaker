@@ -60,7 +60,7 @@ public static class StoryctlLauncher
         }
         catch (Exception error)
         {
-            Console.Error.WriteLine("StoryMaker platform launcher requires Node.js 20 or newer on PATH.");
+            Console.Error.WriteLine("StoryMaker platform launcher requires Node.js 24 or newer on PATH.");
             Console.Error.WriteLine(error.Message);
             return 1;
         }
@@ -168,7 +168,7 @@ These artifacts are deterministic Node-dependent platform launchers for the Stor
 - \`storyctl-macos\`
 - \`storyctl-linux\`
 
-The filenames keep \`storyctl\` for compatibility with existing StoryOS automation. They do not contain Node.js or the CLI source. They require Node.js 20 or newer on \`PATH\` and execute \`packages/cli/dist/index.js\`.
+The filenames keep \`storyctl\` for compatibility with existing StoryOS automation. They do not contain Node.js or the CLI source. They require Node.js 24 or newer on \`PATH\` and execute \`packages/cli/dist/index.js\`.
 `,
   "utf8"
 );

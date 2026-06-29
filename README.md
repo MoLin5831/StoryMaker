@@ -153,7 +153,7 @@ bin/platform/storyctl-macos
 bin/platform/storyctl-linux
 ```
 
-These artifacts keep the `storyctl` filename for existing automation. They are not native single-file binaries and they do not contain Node.js or the CLI source. Each launcher requires Node.js 20 or newer on `PATH` and executes the built CLI in `packages/cli/dist/index.js`.
+These artifacts keep the `storyctl` filename for existing automation. They are not native single-file binaries and they do not contain Node.js or the CLI source. Each launcher requires Node.js 24 or newer on `PATH` and executes the built CLI in `packages/cli/dist/index.js`.
 
 ## Export Formats
 
