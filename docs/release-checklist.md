@@ -14,9 +14,9 @@ corepack pnpm release:check
 
 - `git diff --check`
 - `corepack pnpm lint`
-- `corepack pnpm -r typecheck`
+- `corepack pnpm build`
 - `corepack pnpm test`
-- `corepack pnpm build:dashboard`
+- `corepack pnpm verify:clean-source`
 - `corepack pnpm package:cli-smoke`
 - `corepack pnpm scan:secrets`
 - `corepack pnpm security:audit`

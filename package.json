@@ -7,7 +7,7 @@
   "type": "module",
   "packageManager": "pnpm@10.17.1",
   "scripts": {
-    "build": "corepack pnpm -r --filter \"./packages/*\" typecheck",
+    "build": "corepack pnpm build:dashboard && corepack pnpm -r --filter \"./packages/*\" typecheck",
     "build:cli-runtime": "node scripts/build-cli-runtime.mjs",
     "build:dashboard": "corepack pnpm --filter storymaker build && corepack pnpm --filter ./apps/dashboard build",
     "format": "biome format --write package.json biome.json vitest.config.ts",
@@ -20,7 +20,8 @@
     "storymaker": "node scripts/ensure-cli-runtime.mjs && tsx packages/cli/src/index.ts",
     "storyctl": "node scripts/ensure-cli-runtime.mjs && tsx packages/cli/src/index.ts",
     "typecheck": "tsc --version && node -e \"JSON.parse(require('node:fs').readFileSync('tsconfig.base.json', 'utf8')); console.log('tsconfig.base.json OK')\"",
-    "test": "corepack pnpm -r --filter \"./packages/*\" --filter \"./apps/*\" test"
+    "test": "corepack pnpm build:dashboard && corepack pnpm -r --filter \"./packages/*\" --filter \"./apps/*\" test",
+    "verify:clean-source": "node scripts/verify-clean-source.mjs"
   },
   "bin": {
     "storymaker": "./bin/storymaker",

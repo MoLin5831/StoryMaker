@@ -37,7 +37,7 @@ storyctl
 corepack pnpm release:check
 ```
 
-该命令会覆盖 lint、类型检查、测试、Dashboard 构建、npm tarball 安装 smoke、密钥扫描、依赖审计和平台启动器 smoke。详细清单见 [发布成熟度清单](release-checklist.md)。
+该命令会覆盖 lint、构建与类型检查、测试、干净源码副本验证、npm tarball 安装 smoke、密钥扫描、依赖审计和平台启动器 smoke。详细清单见 [发布成熟度清单](release-checklist.md)。
 
 如果只需要验证 npm 包本身，可运行：
 

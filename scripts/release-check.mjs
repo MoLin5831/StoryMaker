@@ -40,9 +40,9 @@ const runNodeLauncher = (relativePath) => {
 
 run("git", ["diff", "--check"]);
 run("corepack", ["pnpm", "lint"]);
-run("corepack", ["pnpm", "-r", "typecheck"]);
+run("corepack", ["pnpm", "build"]);
 run("corepack", ["pnpm", "test"]);
-run("corepack", ["pnpm", "build:dashboard"]);
+run("corepack", ["pnpm", "verify:clean-source"]);
 run("corepack", ["pnpm", "package:cli-smoke"]);
 run("corepack", ["pnpm", "scan:secrets"]);
 run("corepack", ["pnpm", "security:audit"]);

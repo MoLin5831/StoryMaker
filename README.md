@@ -69,16 +69,22 @@ scripts/
 corepack pnpm install
 ```
 
-类型检查：
+构建并类型检查：
 
 ```bash
-corepack pnpm -r typecheck
+corepack pnpm build
 ```
 
 运行测试：
 
 ```bash
 corepack pnpm test
+```
+
+`build` 和 `test` 会先准备 workspace 中 CLI、Dashboard 和内部包依赖的 `dist` 产物，因此干净 clone 后可以直接运行。验证“干净源码副本也能安装、测试、构建”：
+
+```bash
+corepack pnpm verify:clean-source
 ```
 
 从源码运行 CLI：
@@ -102,7 +108,7 @@ corepack pnpm storymaker dashboard --once --port 0
 Remove-Item Env:STORYOS_CWD
 ```
 
-Dashboard 依赖 workspace 中的 `dist` 构建产物。修改 Dashboard、CLI 或 package 源码后，请重新运行 `corepack pnpm build:dashboard`。
+Dashboard 依赖 workspace 中的 `dist` 构建产物。`corepack pnpm build`、`corepack pnpm test` 和 `corepack pnpm build:dashboard` 都会刷新这些产物。
 
 ## npm 包
 
