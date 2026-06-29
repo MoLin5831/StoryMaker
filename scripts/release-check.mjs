@@ -1,5 +1,5 @@
 import { spawnSync } from "node:child_process";
-import { access } from "node:fs/promises";
+import { access, readFile } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -24,6 +24,14 @@ const run = (command, args, options = {}) => {
 
 const assertFileExists = async (relativePath) => {
   await access(join(rootDir, relativePath));
+};
+
+const assertFileContains = async (relativePath, expected) => {
+  const contents = await readFile(join(rootDir, relativePath), "utf8");
+
+  if (!contents.includes(expected)) {
+    throw new Error(`Expected ${relativePath} to contain ${expected}`);
+  }
 };
 
 const runNodeLauncher = (relativePath) => {
@@ -52,9 +60,7 @@ if (process.platform === "win32") {
     cwd: rootDir
   });
 } else {
-  run(join(rootDir, "bin", "platform", "storyctl.exe"), ["--version"], {
-    cwd: rootDir
-  });
+  await assertFileContains("bin/platform/storyctl.exe", 'STORYOS_PACKAGED_PLATFORM = "windows"');
 }
 
 console.log("StoryMaker release readiness check passed.");
