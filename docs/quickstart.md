@@ -1,14 +1,14 @@
 # StoryMaker 快速开始
 
-这份指南面向通过 Codex 或 Claude Code 使用 StoryMaker 的作者。
+这份指南面向准备通过 Codex 或 Claude Code 使用 StoryMaker 的作者。目标是帮你完成一次项目初始化，并理解日常写作应该如何交给 AI agent 推进。
 
 ## 安装说明
 
-当前 npm 包名是 `@storyos/cli`，它提供推荐命令 `storymaker` 和兼容命令 `storyctl`。`@storymaker/cli` 尚未发布。
+当前 npm 包名是 `@storyos/cli`。它提供推荐命令 `storymaker`，也保留兼容命令 `storyctl`。`@storymaker/cli` 尚未发布。
 
 ## 1. 创建项目
 
-请创建一个独立的故事目录，不要把小说正文写在 StoryMaker 源码仓库里。
+请在独立目录中创建故事项目，不要把正文写进 StoryMaker 源码仓库。
 
 ```bash
 mkdir my-novel
@@ -16,13 +16,15 @@ cd my-novel
 storymaker init --type superlong_webnovel --profile production
 ```
 
-然后补充项目起始文件：
+初始化后，请先补充项目基础文件：
 
 ```text
 project.yaml
 00-项目企划案.md
 00-项目假设.md
 ```
+
+这些文件决定题材、读者、主线承诺、世界观边界和早期风险。前期信息越清楚，后续自动写作越稳定。
 
 ## 2. 安装一个 AI 适配器
 
@@ -38,15 +40,15 @@ Claude Code：
 storymaker adapter install claude-code --cli-only
 ```
 
-建议先让一个 agent 负责当前项目。之后可以同时保留多个适配器，但日常写作最好由一个 agent 接管同一轮上下文。
+建议一个项目先由一个 agent 接管。多个适配器可以共存，但同一轮写作最好由同一个 agent 负责上下文。
 
-## 3. 日常使用
+## 3. 日常写作
 
-前期设定完成后，日常交互应尽量自然：
+完成前期设定后，日常使用应尽量像正常对话：
 
 ```text
 用户：继续写下一章。
-AI：第 0001 章已生产完成。这是正文和质量报告。是否通过？
+AI：第 0001 章已完成。这是正文和质量报告。是否通过？
 ```
 
 通过：
@@ -61,11 +63,11 @@ AI：第 0001 章已生产完成。这是正文和质量报告。是否通过？
 用户：打回。开头钩子不够强，节奏也太慢。
 ```
 
-AI agent 会在后台调用 StoryMaker 命令。普通用户不需要手动串起 `status`、`context`、`produce`、`index`、`approve`、`resume` 等命令链。
+AI agent 会在后台调用 StoryMaker。普通用户不需要手动串起 `status`、`context`、`produce`、`index`、`approve`、`resume` 等命令。
 
 ## 4. 常用手动命令
 
-高级用户仍然可以直接检查项目状态：
+高级用户可以直接检查项目状态：
 
 ```bash
 storymaker status
@@ -78,7 +80,7 @@ storymaker export --format md
 
 ## 5. 从源码启动 Dashboard
 
-如果你在这个 monorepo 中运行 StoryMaker，而不是使用已安装包，请先构建 Dashboard 运行时：
+如果你在 monorepo 中运行 StoryMaker，而不是使用已安装包，请先构建 Dashboard 运行时：
 
 ```bash
 corepack pnpm build:dashboard

@@ -1,6 +1,6 @@
 # 事实草稿协议
 
-AI agent 可以在提交的草稿中包含 `storymaker-facts` JSON 块。StoryMaker 会把它提取为待确认知识更新，并从读者可见的章节 Markdown 中移除。
+AI agent 可以在提交的草稿中包含 `storymaker-facts` JSON 块。StoryMaker 会把这些内容提取为待确认知识更新，并从读者可见的章节 Markdown 中移除。
 
 格式如下：
 
@@ -46,4 +46,4 @@ AI agent 可以在提交的草稿中包含 `storymaker-facts` JSON 块。StoryMa
 - `sourceRef`
 - `confidence`：`low`、`medium` 或 `high`
 
-事实会保持待确认状态，直到用户通过对应章节。如果章节被打回，这些待确认知识更新也会随之打回，不会进入正式设定。
+这些事实会保持待确认状态，直到用户通过对应章节。如果章节被打回，对应的待确认知识更新也会随之打回，不会进入正式设定。

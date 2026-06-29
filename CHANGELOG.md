@@ -2,7 +2,7 @@
 
 这里记录 StoryMaker CLI 包的重要变化。
 
-当前以 `packages/cli/package.json` 作为 npm 包版本来源。任何版本号调整都应在同一变更中更新本文件。
+当前以 `packages/cli/package.json` 作为 npm 包版本来源。任何版本号调整都应在同一变更中同步更新本文件。
 
 ## Unreleased
 

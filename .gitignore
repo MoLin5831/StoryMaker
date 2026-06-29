@@ -4,6 +4,7 @@ dist/
 coverage/
 .vitest/
 .dev/
+.baoyu-skills/
 
 .env
 .env.*

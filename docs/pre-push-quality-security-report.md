@@ -8,7 +8,7 @@
 
 结论：建议推送，有少量非阻塞剩余风险。
 
-本轮修复了一个发布入口阻塞问题、一个 Dashboard 本地操作安全问题，并补齐了推送到 GitHub 前最基础的 CI、依赖审计和密钥扫描防线。当前 lint、类型检查、测试、构建、依赖审计、密钥扫描、示例项目基础 smoke、Windows launcher smoke 均通过。
+本轮修复了一个发布入口阻塞问题、一个 Dashboard 本地操作安全问题，并补齐了推送到 GitHub 前最基础的 CI、依赖审计和密钥扫描防线。当前 lint、类型检查、测试、构建、依赖审计、密钥扫描、示例项目基础冒烟检查、Windows 启动器冒烟检查均通过。
 
 ## 使用的 Skills
 
@@ -72,8 +72,8 @@
 
 修复：
 
-- Dashboard 启动时生成 per-process CSRF token。
-- approve/reject 表单带 hidden token。
+- Dashboard 启动时生成进程级 CSRF token。
+- approve/reject 表单带隐藏 token。
 - POST `/actions/approve` 和 `/actions/reject` 校验 token，失败返回 403。
 - 增加回归测试覆盖缺失 token 时 runner 不会被调用。
 
@@ -140,7 +140,7 @@
 | `corepack pnpm lint` | 通过 | Biome lint 79 files |
 | `corepack pnpm -r typecheck` | 通过 | 13 workspace projects |
 | `corepack pnpm test` | 通过 | CLI 88/88，Dashboard 12/12，其他包通过 |
-| `corepack pnpm build:dashboard` | 通过 | 所有依赖包和 Dashboard build 通过 |
+| `corepack pnpm build:dashboard` | 通过 | 所有依赖包和 Dashboard 构建通过 |
 | `corepack pnpm package:binaries` | 通过 | 平台 launcher 重新生成 |
 | `bin\platform\storyctl.exe --version` | 通过 | 输出 `0.0.0` |
 | `bin\platform\storyctl.exe --help` | 通过 | Help 正常显示 |
@@ -160,7 +160,7 @@
 
 ### 输入与路径
 
-- CLI 和 Dashboard 以本地文件系统项目为主，主要路径由 project root 和已知 runtime 目录派生。
+- CLI 和 Dashboard 以本地文件系统项目为主，主要路径由项目根目录和已知运行目录派生。
 - 本轮未发现明显任意远程 URL 读取、SSRF、反序列化或动态代码执行入口。
 - `scripts/package-binaries.mjs` 使用 `spawnSync` 调用 PowerShell 编译 C# launcher，输入来自仓库内确定路径，并对单引号做转义。风险可接受。
 
