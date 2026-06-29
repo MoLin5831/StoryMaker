@@ -8,8 +8,8 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "storymaker": "./dist/index.js",
-    "storyctl": "./dist/index.js"
+    "storymaker": "dist/index.js",
+    "storyctl": "dist/index.js"
   },
   "exports": {
     ".": {
