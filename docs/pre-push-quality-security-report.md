@@ -4,6 +4,8 @@
 项目：StoryMaker
 目标仓库：`https://github.com/MoLin5831/StoryMaker.git`
 
+说明：本报告中的 `examples/superlong-webnovel` 是推送前使用的本地产品级演示资产，不随公开仓库分发。
+
 ## 总体结论
 
 结论：建议推送，有少量非阻塞剩余风险。

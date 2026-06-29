@@ -89,7 +89,7 @@ corepack pnpm build:dashboard
 然后指定一个 StoryMaker 项目并启动：
 
 ```powershell
-$env:STORYOS_CWD = (Resolve-Path "examples/superlong-webnovel").Path
+$env:STORYOS_CWD = (Resolve-Path "path/to/your-story-project").Path
 corepack pnpm storymaker dashboard --once --port 0
 Remove-Item Env:STORYOS_CWD
 ```

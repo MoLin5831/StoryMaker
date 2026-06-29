@@ -26,14 +26,14 @@ storymaker draft submit --unit chapter-0001 --from path/to/draft.md --title "章
 
 - [快速开始](docs/quickstart.md)
 - [日常使用](docs/daily-usage.md)
-- [产品级示例](examples/superlong-webnovel/README.md)
+- [示例项目](examples/README.md)
 - [命名与兼容约定](docs/branding.md)
 - [发布策略](docs/publishing.md)
 
-试跑示例项目：
+在源码仓库中试跑某个 StoryMaker 项目：
 
 ```powershell
-$env:STORYOS_CWD = (Resolve-Path "examples/superlong-webnovel").Path
+$env:STORYOS_CWD = (Resolve-Path "path/to/your-story-project").Path
 corepack pnpm storymaker status
 corepack pnpm storymaker resume
 Remove-Item Env:STORYOS_CWD
@@ -97,7 +97,7 @@ corepack pnpm build:dashboard
 启动本地 Dashboard：
 
 ```powershell
-$env:STORYOS_CWD = (Resolve-Path "examples/superlong-webnovel").Path
+$env:STORYOS_CWD = (Resolve-Path "path/to/your-story-project").Path
 corepack pnpm storymaker dashboard --once --port 0
 Remove-Item Env:STORYOS_CWD
 ```
