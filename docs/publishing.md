@@ -1,47 +1,43 @@
-# StoryMaker Publishing Strategy
+# StoryMaker 发布策略
 
-## Current Package
+## 当前包名
 
-The current npm package remains:
+当前 npm 包名是：
 
 ```text
 @storyos/cli
 ```
 
-This package exposes both command names:
+它提供两个命令：
 
 ```text
 storymaker
 storyctl
 ```
 
-`storymaker` is the preferred user-facing command. `storyctl` remains a compatibility alias for existing scripts, adapters, and older documentation.
+`storymaker` 是推荐给用户的命令。`storyctl` 是兼容命令，保留给已有脚本、适配器和自动化。
 
-## Current Limitation
+## 当前限制
 
-`@storymaker/cli` is not published yet. Users should not run:
+`@storymaker/cli` 尚未发布。用户暂时不要运行：
 
 ```bash
 npm install -g @storymaker/cli
 ```
 
-Until a future task creates and verifies that package, install or pack `@storyos/cli` and use the `storymaker` binary from that package.
+在正式增加并验证 `@storymaker/cli` 之前，请安装或打包 `@storyos/cli`，并使用其中的 `storymaker` 命令。
 
-## Migration Path
+## 发布规则
 
-1. Keep `@storyos/cli` as the package name for the current milestone.
-2. Prefer `storymaker` in all new user-facing docs and agent flows.
-3. Keep `storyctl` as a compatibility alias.
-4. Do not remove `storyctl` until a major migration plan exists.
-5. Evaluate `@storymaker/cli` later as either:
-   - a new alias package that depends on or re-exports `@storyos/cli`; or
-   - a package rename with explicit migration notes.
+1. 当前里程碑继续发布 `@storyos/cli`。
+2. 所有用户文档、适配器和日常流程优先使用 `storymaker`。
+3. 保留 `storyctl` 作为兼容命令。
+4. 不在没有迁移方案的情况下移除 `storyctl`。
+5. 如果未来增加 `@storymaker/cli`，需要单独验证包内容、bin 暴露方式和迁移说明。
 
-## Verification Policy
+## 发布前检查
 
-Because this task does not add `@storymaker/cli`, no `@storymaker/cli` pack dry run is required.
-
-Before publishing `@storyos/cli`, run:
+发布 `@storyos/cli` 前运行：
 
 ```bash
 corepack pnpm --filter @storyos/cli build
@@ -49,4 +45,4 @@ cd packages/cli
 npm pack --dry-run
 ```
 
-If a future task adds `@storymaker/cli`, that task must include its own `npm pack --dry-run` result and document how the `storymaker` and `storyctl` bins are exposed.
+如果未来增加 `@storymaker/cli`，对应任务必须包含自己的 `npm pack --dry-run` 结果，并说明 `storymaker` 与 `storyctl` 两个命令如何暴露。

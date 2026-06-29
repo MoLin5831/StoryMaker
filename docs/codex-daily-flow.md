@@ -1,70 +1,70 @@
-# Codex Daily Flow
+# Codex 日常流程
 
-Codex should make StoryMaker feel like a daily writing collaborator, not a command checklist.
+Codex 应该让 StoryMaker 像一个日常写作协作者，而不是一张命令清单。
 
-## User-Facing Loop
+## 面向用户的循环
 
 ```text
-User: Continue writing the next chapter.
-Codex: Chapter 0012 is complete. Here is the draft and quality report. Approve it?
+用户：继续写下一章。
+Codex：第 0012 章已完成。这是正文和质量报告。是否通过？
 ```
 
-The user should not need to run `status`, `resume`, `context`, `produce`, `draft submit`, `approve`, and `reject` manually. Codex runs StoryMaker commands internally and reports the result.
+用户不需要手动运行 `status`、`resume`、`context`、`produce`、`draft submit`、`approve`、`reject`。Codex 在后台调用 StoryMaker，并把结果汇报给用户。
 
-## Intent Routing
+## 意图路由
 
-| User says | Codex should do |
+| 用户说 | Codex 应该做 |
 | --- | --- |
-| "Continue", "继续写下一章" | Recover state, run `storymaker produce packet --unit next --json`, write the real Markdown draft, then run `storymaker draft submit --unit <unit> --from <file> --title <title> --json`. |
-| "Status", "现在进度如何" | Run `storymaker status --json` or `storymaker resume --json`, then summarize. |
-| "Approve", "通过" | Approve the current awaiting-review unit with `storymaker approve --unit <unit>`. |
-| "Reject: <reason>", "打回，原因是..." | Run `storymaker reject --unit <unit> --reason <reason>`. |
-| "Revise with..." | Reject if needed, then run `storymaker revise --unit <unit> --mode <mode>`. |
+| “继续”“继续写下一章” | 恢复状态，运行 `storymaker produce packet --unit next --json`，写出真实 Markdown 正文，再运行 `storymaker draft submit --unit <unit> --from <file> --title <title> --json`。 |
+| “现在进度如何”“状态” | 运行 `storymaker status --json` 或 `storymaker resume --json`，然后总结。 |
+| “通过”“批准” | 对当前待审单元运行 `storymaker approve --unit <unit>`。 |
+| “打回：<原因>” | 运行 `storymaker reject --unit <unit> --reason <reason>`。 |
+| “按……修改” | 如有必要先打回，再运行 `storymaker revise --unit <unit> --mode <mode>`。 |
 
-## Safety Rules
+## 安全规则
 
-- Always recover current state before choosing an action.
-- Never approve without explicit user confirmation.
-- Never start a new unit while another unit is awaiting user review.
-- Preserve rejected drafts and staged knowledge until a later approval.
-- Prefer `storymaker`; `storyctl` is only a compatibility alias.
-- Codex must write the real Markdown draft itself from the Work Packet prompt and context.
-- Placeholder output is only a test or no-model fallback, not the default daily path.
+- 每次行动前都先恢复当前状态。
+- 没有用户明确确认，不得通过章节。
+- 有章节等待审阅时，不得开始新章节。
+- 被打回的草稿和待确认知识必须保留到后续明确处理。
+- 优先使用 `storymaker`；`storyctl` 仅作为兼容命令。
+- Codex 必须根据 Work Packet 和上下文自己写出真实 Markdown 正文。
+- placeholder 输出只用于测试或无模型兜底，不是日常写作路径。
 
-## Real Generation Steps
+## 真实生成步骤
 
-For a safe "continue writing" request, Codex should:
+处理“继续写下一章”时，Codex 应该：
 
-1. Run `storymaker status --json` or `storymaker resume --json`.
-2. If no unit is awaiting review, run `storymaker produce packet --unit next --json`.
-3. Use `data.generation.prompt`, context sources, gaps, constraints, and output target to write the full Markdown draft.
-4. Add a `storymaker-facts` block when the draft establishes staged facts; follow [Fact Draft Protocol](fact-draft-protocol.md).
-5. Save that draft to a temporary Markdown file.
-6. Run `storymaker draft submit --unit <unit> --from <file> --title <title> --json`.
-7. Show the staged draft path, report path, and approval question.
-8. Stop for the user's approve/reject decision.
+1. 运行 `storymaker status --json` 或 `storymaker resume --json`。
+2. 如果没有待审章节，运行 `storymaker produce packet --unit next --json`。
+3. 使用 `data.generation.prompt`、上下文来源、缺口、约束和输出目标写完整 Markdown 草稿。
+4. 如果草稿建立了新事实，加入 `storymaker-facts` 块，格式见 [事实草稿协议](fact-draft-protocol.md)。
+5. 把草稿保存到临时 Markdown 文件。
+6. 运行 `storymaker draft submit --unit <unit> --from <file> --title <title> --json`。
+7. 展示正文路径、质量报告路径和是否通过的问题。
+8. 停在用户的通过/打回决定点。
 
-## What Codex Reports
+## Codex 汇报内容
 
-After production, Codex should show:
-
-```text
-progress lines, when visible
-draft path
-quality report path
-short quality summary when available
-known blocker or continuity risk
-approval question
-```
-
-The ideal close of a turn is:
+生产完成后，Codex 应展示：
 
 ```text
-Final acceptance
-WorkUnit: chapter-0012
-Draft path: outputs/chapters/0012.md
-Quality report path: reviews/run-0012.md
-Question: Approve this chapter?
+必要的进度信息
+正文路径
+质量报告路径
+简短质量摘要
+已知阻塞或连续性风险
+是否通过的问题
 ```
 
-See `docs/progress-and-acceptance.md` for the progress event schema and final acceptance template.
+推荐结尾：
+
+```text
+最终验收
+工作单元：chapter-0012
+正文路径：outputs/chapters/0012.md
+质量报告路径：reviews/run-0012.md
+问题：是否通过这一章？
+```
+
+进度事件和最终验收结构见 [进度与验收展示](progress-and-acceptance.md)。

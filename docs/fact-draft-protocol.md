@@ -1,8 +1,8 @@
-# Fact Draft Protocol
+# 事实草稿协议
 
-AI agents may include a `storymaker-facts` JSON block in a submitted draft. StoryMaker extracts the block into the staged `PendingKnowledgeUpdate` and removes it from the reader-facing chapter Markdown.
+AI agent 可以在提交的草稿中包含 `storymaker-facts` JSON 块。StoryMaker 会把它提取为待确认知识更新，并从读者可见的章节 Markdown 中移除。
 
-Use this shape:
+格式如下：
 
 ````markdown
 ```storymaker-facts
@@ -21,7 +21,7 @@ Use this shape:
 ```
 ````
 
-Supported `type` values:
+支持的 `type`：
 
 - `character_state`
 - `location_change`
@@ -32,18 +32,18 @@ Supported `type` values:
 - `recovered_foreshadowing`
 - `unconfirmed_assumption`
 
-Required fields:
+必填字段：
 
 - `type`
 - `summary`
 
-Optional fields:
+可选字段：
 
 - `subject`
 - `key`
 - `value`
 - `note`
 - `sourceRef`
-- `confidence`: `low`, `medium`, or `high`
+- `confidence`：`low`、`medium` 或 `high`
 
-Facts remain staged until the user approves the chapter. If the chapter is rejected, the pending knowledge update is rejected with it and does not become canon.
+事实会保持待确认状态，直到用户通过对应章节。如果章节被打回，这些待确认知识更新也会随之打回，不会进入正式设定。

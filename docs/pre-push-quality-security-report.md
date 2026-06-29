@@ -1,7 +1,7 @@
 # StoryMaker 推送前代码质量与安全审查报告
 
 日期：2026-06-29
-项目路径：`D:\Codex\StoryOS`
+项目：StoryMaker
 目标仓库：`https://github.com/MoLin5831/StoryMaker.git`
 
 ## 总体结论
@@ -56,7 +56,7 @@
 
 现象：`bin\platform\storyctl.exe --version` 失败，Node 试图加载带引号的路径：
 
-`D:\Codex\StoryOS\"D:\Codex\StoryOS\packages\cli\dist\index.js"`
+`<本地项目路径>\"<本地项目路径>\packages\cli\dist\index.js"`
 
 根因：`scripts/package-binaries.mjs` 生成的 C# `Quote()` 输出了反斜杠加引号，导致 Node 收到错误的入口路径。
 
@@ -211,7 +211,7 @@
 
 建议可以进入 GitHub 首次推送准备。推送前请先确认仓库初始化策略：
 
-1. 如果 `D:\Codex\StoryOS` 应直接成为仓库根目录，先执行 `git init`，添加 remote 到 `https://github.com/MoLin5831/StoryMaker.git`。
+1. 如果当前 StoryMaker 工作区应直接成为仓库根目录，先执行 `git init`，添加 remote 到 `https://github.com/MoLin5831/StoryMaker.git`。
 2. 运行 `git status --short` 复核将要提交的文件，尤其决定是否保留 `.dev/` 接力记录。
 3. 首次 commit 前再跑一次 `corepack pnpm scan:secrets`。
 4. 推送到 GitHub 后开启 branch protection 和 required CI checks。

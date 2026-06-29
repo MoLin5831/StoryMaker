@@ -1,14 +1,14 @@
-# StoryMaker Quickstart
+# StoryMaker 快速开始
 
-This quickstart is for authors using StoryMaker through Codex or Claude Code.
+这份指南面向通过 Codex 或 Claude Code 使用 StoryMaker 的作者。
 
-## Install Note
+## 安装说明
 
-The current npm package is `@storyos/cli`, and it provides the preferred `storymaker` command plus the compatibility `storyctl` alias. `@storymaker/cli` is not published yet.
+当前 npm 包名是 `@storyos/cli`，它提供推荐命令 `storymaker` 和兼容命令 `storyctl`。`@storymaker/cli` 尚未发布。
 
-## 1. Create A Project
+## 1. 创建项目
 
-Create a separate story directory. Do not write your novel inside the StoryMaker source repository.
+请创建一个独立的故事目录，不要把小说正文写在 StoryMaker 源码仓库里。
 
 ```bash
 mkdir my-novel
@@ -16,7 +16,7 @@ cd my-novel
 storymaker init --type superlong_webnovel --profile production
 ```
 
-Then edit the project starter files:
+然后补充项目起始文件：
 
 ```text
 project.yaml
@@ -24,67 +24,67 @@ project.yaml
 00-项目假设.md
 ```
 
-## 2. Install One AI Adapter
+## 2. 安装一个 AI 适配器
 
-For Codex:
+Codex：
 
 ```bash
 storymaker adapter install codex --cli-only
 ```
 
-For Claude Code:
+Claude Code：
 
 ```bash
 storymaker adapter install claude-code --cli-only
 ```
 
-Use one adapter first. Both adapters can exist later, but daily work is easiest when one agent owns the current session.
+建议先让一个 agent 负责当前项目。之后可以同时保留多个适配器，但日常写作最好由一个 agent 接管同一轮上下文。
 
-## 3. Daily Use
+## 3. 日常使用
 
-After the project brief is ready, the normal daily interaction should be natural language:
-
-```text
-User: Continue writing the next chapter.
-AI: Chapter 0001 is complete. Here is the draft and quality report. Approve it?
-```
-
-Approve:
+前期设定完成后，日常交互应尽量自然：
 
 ```text
-User: Approved.
+用户：继续写下一章。
+AI：第 0001 章已生产完成。这是正文和质量报告。是否通过？
 ```
 
-Reject:
+通过：
 
 ```text
-User: Reject it. The hook is weak and the pacing is too slow.
+用户：通过。
 ```
 
-The AI agent should call StoryMaker commands in the background. The user should not need to manually run `status`, `context`, `produce`, `index`, `approve`, and `resume` for normal work.
+打回：
 
-## 4. Useful Manual Commands
+```text
+用户：打回。开头钩子不够强，节奏也太慢。
+```
 
-Advanced users can still inspect the project directly:
+AI agent 会在后台调用 StoryMaker 命令。普通用户不需要手动串起 `status`、`context`、`produce`、`index`、`approve`、`resume` 等命令链。
+
+## 4. 常用手动命令
+
+高级用户仍然可以直接检查项目状态：
 
 ```bash
 storymaker status
 storymaker resume
-storymaker search "protagonist"
+storymaker search "主角"
 storymaker export --format md
 ```
 
-`storyctl` remains available as a compatibility alias for every command.
+`storyctl` 对同一批命令仍然可用。
 
-## 5. Local Dashboard From Source
+## 5. 从源码启动 Dashboard
 
-If you are running StoryMaker from this monorepo instead of an installed package, build the Dashboard runtime once before starting the local Dashboard:
+如果你在这个 monorepo 中运行 StoryMaker，而不是使用已安装包，请先构建 Dashboard 运行时：
 
 ```bash
 corepack pnpm build:dashboard
 ```
 
-Then run it against a StoryMaker project:
+然后指定一个 StoryMaker 项目并启动：
 
 ```powershell
 $env:STORYOS_CWD = (Resolve-Path "examples/superlong-webnovel").Path
@@ -92,4 +92,4 @@ corepack pnpm storymaker dashboard --once --port 0
 Remove-Item Env:STORYOS_CWD
 ```
 
-The Dashboard uses built workspace `dist` files. Re-run `corepack pnpm build:dashboard` after changing Dashboard, CLI, or package source files.
+Dashboard 使用 workspace 中构建出的 `dist` 文件。修改 Dashboard、CLI 或 package 源码后，请重新运行 `corepack pnpm build:dashboard`。

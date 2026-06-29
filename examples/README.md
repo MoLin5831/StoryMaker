@@ -1,8 +1,8 @@
-# StoryMaker Examples
+# StoryMaker 示例
 
-These examples are fixture projects for testing and demonstration. The `superlong-webnovel` project is the product-grade demo for the daily StoryMaker loop.
+这些目录是用于测试、演示和产品验收的 StoryMaker 项目示例。`superlong-webnovel` 是产品级日常写作演示项目。
 
-## Projects
+## 项目列表
 
 ```text
 superlong-webnovel/
@@ -10,26 +10,26 @@ short-story/
 screenplay/
 ```
 
-Use them to inspect StoryMaker project structure, workflow state, staged chapters, quality reports, pending knowledge updates, and search/index behavior.
+你可以用它们查看 StoryMaker 项目结构、工作流状态、待审章节、质量报告、待确认知识更新，以及索引和搜索行为。
 
-## Product Demo
+## 产品演示
 
-`superlong-webnovel/` contains the demo story `镜城雨线`.
+`superlong-webnovel/` 包含演示故事《镜城雨线》。
 
 ```text
-User: Continue writing the next chapter.
-StoryMaker Agent: Chapter 0001 is complete. Here is the draft and quality report. Approve it?
+用户：继续写下一章。
+StoryMaker Agent：第 0001 章已完成。这是正文和质量报告。是否通过？
 ```
 
-The example is intentionally paused at `awaiting_user_review` with:
+这个示例故意停在 `awaiting_user_review` 状态，并包含：
 
-- planning and assumptions;
-- one real staged chapter fixture;
-- one quality report;
-- one pending knowledge update;
-- one canon background knowledge file for default search.
+- 项目企划与假设；
+- 一章真实 staged 正文 fixture；
+- 一份质量报告；
+- 一份待确认知识更新；
+- 一个可用于默认搜索的正式背景知识文件。
 
-Try it from the repository root:
+从仓库根目录试用：
 
 ```powershell
 $env:STORYOS_CWD = (Resolve-Path "examples/superlong-webnovel").Path
@@ -43,7 +43,7 @@ corepack pnpm storymaker export --format md --include-staged
 Remove-Item Env:STORYOS_CWD
 ```
 
-For day-to-day authoring, create a separate project directory:
+日常创作请创建独立项目：
 
 ```bash
 mkdir my-story
@@ -52,14 +52,14 @@ storymaker init --type superlong_webnovel --profile production
 storymaker adapter install codex --cli-only
 ```
 
-Then work through natural language with the AI agent:
+然后用自然语言和 AI agent 协作：
 
 ```text
-Continue writing the next chapter.
-Approved.
-Reject it: the ending does not hook the next chapter.
+继续写下一章。
+通过。
+打回：结尾没有钩住下一章。
 ```
 
-For real flow demonstrations, have the agent run `storymaker produce packet --unit next --json`, write a Markdown draft, then submit it with `storymaker draft submit`. For deterministic CLI tests or fixture refreshes, use `storymaker produce next --placeholder` explicitly; placeholder chapters are development fixtures rather than recommended author output.
+真实流程演示时，让 agent 运行 `storymaker produce packet --unit next --json`，写出 Markdown 正文，再用 `storymaker draft submit` 提交。确定性 CLI 测试或刷新 fixture 时，才显式使用 `storymaker produce next --placeholder`。
 
-The low-level `storyctl` command remains available for compatibility.
+`storyctl` 仍可作为兼容命令使用。

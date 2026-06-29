@@ -1,17 +1,17 @@
-# Changelog
+# 更新日志
 
-All notable StoryMaker CLI package changes should be recorded here.
+这里记录 StoryMaker CLI 包的重要变化。
 
-StoryMaker currently uses `packages/cli/package.json` as the npm package version source of truth. Update this file in the same change as any version bump.
+当前以 `packages/cli/package.json` 作为 npm 包版本来源。任何版本号调整都应在同一变更中更新本文件。
 
 ## Unreleased
 
-- Adopted `StoryMaker` as the user-facing product name.
-- Documented `storymaker` as the target CLI entry while retaining `storyctl` as the compatibility command.
-- Documented that existing projects keep using `.storyos/` runtime state until a dedicated migration command exists.
-- Documented the current npm publishing strategy: keep `@storyos/cli`, expose `storymaker` and `storyctl`, and defer `@storymaker/cli` until a verified alias or rename task.
+- 统一用户可见产品名称为 `StoryMaker`。
+- 将 `storymaker` 作为推荐 CLI 命令，并保留 `storyctl` 作为兼容命令。
+- 明确当前本地运行状态目录为 `.storyos/`，用户不需要手动重命名。
+- 记录当前发布策略：继续发布 `@storyos/cli`，暴露 `storymaker` 和 `storyctl`，`@storymaker/cli` 需要未来单独验证后再发布。
 
 ## 0.0.0
 
-- Initial unpublished package preparation for `@storyos/cli`.
-- Includes the `storyctl` CLI, local project initialization, workflow commands, adapters, indexing, import/export, MCP enablement, and Dashboard/test scaffolding needed by the current relay milestone.
+- 准备首个未发布的 `@storyos/cli` 包。
+- 包含 CLI 初始化、工作流命令、适配器、索引、导入导出、MCP 开关、Dashboard 和测试脚手架。

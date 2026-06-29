@@ -2,7 +2,7 @@
   "name": "@storyos/root",
   "version": "0.0.0",
   "private": true,
-  "description": "StoryMaker is a local-first narrative engineering runtime for long-context, AI-assisted story production.",
+  "description": "StoryMaker 是面向长上下文 AI 辅助创作的本地优先叙事工程运行时。",
   "type": "module",
   "packageManager": "pnpm@10.17.1",
   "scripts": {

@@ -1,73 +1,71 @@
-# Claude Code Daily Flow
+# Claude Code 日常流程
 
-Claude Code should use StoryMaker skills as an internal routing layer. The user should speak naturally and review results.
+Claude Code 应把 StoryMaker 能力作为内部路由层使用。用户只需要自然表达意图并审阅结果。
 
-## Daily Loop
+## 日常循环
 
 ```text
-User: Continue writing the next chapter.
-Claude Code: Chapter 0012 is complete. Here is the draft and quality report. Approve it?
+用户：继续写下一章。
+Claude Code：第 0012 章已完成。这是正文和质量报告。是否通过？
 ```
 
-The user should not need to manually invoke `story-brief`, `story-produce`, `story-review`, or a chain of low-level CLI commands.
+用户不需要手动调用 `story-brief`、`story-produce`、`story-review`，也不需要手动串起底层 CLI 命令。
 
-## Main Entry
+## 主要入口
 
-Use the generated `story-produce` skill for daily work:
+日常工作优先使用生成的 `story-produce` skill：
 
-| User says | Claude Code should do |
+| 用户说 | Claude Code 应该做 |
 | --- | --- |
-| "Continue", "继续写下一章" | Recover state, run `storymaker produce packet --unit next --json`, write the real Markdown draft, then run `storymaker draft submit --unit <unit> --from <file> --title <title> --json`. |
-| "Approve", "通过" | Run `storymaker approve --unit <unit>` for the awaiting-review unit. |
-| "Reject: <reason>", "打回，原因是..." | Run `storymaker reject --unit <unit> --reason <reason>`. |
-| "Revise with..." | Run `storymaker revise --unit <unit> --mode <mode>` after rejection or when revising a rejected unit. |
-| "Status", "现在进度如何" | Use `storymaker status --json` or `storymaker resume --json`, then summarize. |
+| “继续”“继续写下一章” | 恢复状态，运行 `storymaker produce packet --unit next --json`，写出真实 Markdown 正文，再运行 `storymaker draft submit --unit <unit> --from <file> --title <title> --json`。 |
+| “通过”“批准” | 对当前待审单元运行 `storymaker approve --unit <unit>`。 |
+| “打回：<原因>” | 运行 `storymaker reject --unit <unit> --reason <reason>`。 |
+| “按……修改” | 对已打回单元运行 `storymaker revise --unit <unit> --mode <mode>`。 |
+| “现在进度如何”“状态” | 使用 `storymaker status --json` 或 `storymaker resume --json`，然后总结。 |
 
-## Safety Rules
+## 安全规则
 
-- Recover current workflow state before choosing an action.
-- Do not approve without explicit user confirmation.
-- Do not start a new unit while one is awaiting user review.
-- Do not ask the user to manually invoke multiple StoryMaker skills.
-- Prefer `storymaker`; `storyctl` remains a compatibility alias.
-- Claude Code must write the real Markdown draft itself from the Work Packet prompt and context.
-- Placeholder output is only a test or no-model fallback, not the default daily path.
+- 每次行动前都恢复当前工作流状态。
+- 没有用户明确确认，不得通过章节。
+- 有章节等待审阅时，不得开始新章节。
+- 不要求用户手动调用多个 StoryMaker skill。
+- 优先使用 `storymaker`；`storyctl` 仅作为兼容命令。
+- Claude Code 必须根据 Work Packet 和上下文自己写出真实 Markdown 正文。
+- placeholder 输出只用于测试或无模型兜底，不是日常写作路径。
 
-## Real Generation Steps
+## 真实生成步骤
 
-For a safe "continue writing" request, Claude Code should:
+处理“继续写下一章”时，Claude Code 应该：
 
-1. Run `storymaker status --json` or `storymaker resume --json`.
-2. If no unit is awaiting review, run `storymaker produce packet --unit next --json`.
-3. Use `data.generation.prompt`, context sources, gaps, constraints, and output target to write the full Markdown draft.
-4. Add a `storymaker-facts` block when the draft establishes staged facts; follow [Fact Draft Protocol](fact-draft-protocol.md).
-5. Save that draft to a temporary Markdown file.
-6. Run `storymaker draft submit --unit <unit> --from <file> --title <title> --json`.
-7. Show the staged draft path, report path, and approval question.
-8. Stop for the user's approve/reject decision.
+1. 运行 `storymaker status --json` 或 `storymaker resume --json`。
+2. 如果没有待审章节，运行 `storymaker produce packet --unit next --json`。
+3. 使用 `data.generation.prompt`、上下文来源、缺口、约束和输出目标写完整 Markdown 草稿。
+4. 如果草稿建立了新事实，加入 `storymaker-facts` 块，格式见 [事实草稿协议](fact-draft-protocol.md)。
+5. 把草稿保存到临时 Markdown 文件。
+6. 运行 `storymaker draft submit --unit <unit> --from <file> --title <title> --json`。
+7. 展示正文路径、质量报告路径和是否通过的问题。
+8. 停在用户的通过/打回决定点。
 
-## Review Response
+## 审阅回复
 
-After a unit is produced, Claude Code should show:
-
-```text
-progress lines, when visible
-draft path
-quality report path
-short summary or known blocker
-approval question
-```
-
-The final acceptance block should follow this template:
+生产完成后，Claude Code 应展示：
 
 ```text
-Final acceptance
-WorkUnit: chapter-0012
-Draft path: outputs/chapters/0012.md
-Quality report path: reviews/run-0012.md
-Question: Approve this chapter?
+必要的进度信息
+正文路径
+质量报告路径
+简短摘要或已知阻塞
+是否通过的问题
 ```
 
-See `docs/progress-and-acceptance.md` for the progress event schema.
+推荐结尾：
 
-The turn should end at the user decision point, not with another automatic chapter.
+```text
+最终验收
+工作单元：chapter-0012
+正文路径：outputs/chapters/0012.md
+质量报告路径：reviews/run-0012.md
+问题：是否通过这一章？
+```
+
+进度事件和最终验收结构见 [进度与验收展示](progress-and-acceptance.md)。一次回复应停在用户决策点，而不是自动继续下一章。

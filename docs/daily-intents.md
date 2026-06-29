@@ -1,8 +1,8 @@
-# StoryMaker Daily Intents
+# StoryMaker 日常意图
 
-Daily intents turn the author's natural-language requests into stable actions that adapters and future UI surfaces can route safely.
+日常意图用于把作者的自然语言请求映射为稳定、安全的动作，方便适配器和未来 UI 路由。
 
-## Intent Values
+## 意图值
 
 ```text
 continue_next_unit
@@ -14,67 +14,67 @@ show_pending_review
 stop_auto_production
 ```
 
-## Phrase Mapping
+## 说法映射
 
-| User phrase examples | Intent | Required data |
+| 用户说法示例 | 意图 | 必要信息 |
 | --- | --- | --- |
-| "继续写下一章", "Continue writing the next chapter", "Continue" | `continue_next_unit` | none |
-| "通过", "Approved", "Approve this chapter" | `approve_current_unit` | explicit approval |
-| "打回，原因是主角选择不可信", "Reject it: the motivation is weak" | `reject_current_unit` | rejection reason |
-| "修改后再给我看", "Revise with a stronger hook", "Rewrite and show me again" | `revise_current_unit` | revision direction |
-| "现在进度如何", "Show current progress", "Status" | `show_status` | none |
-| "给我看待验收章节", "Show pending review", "What am I reviewing?" | `show_pending_review` | none |
-| "先停一下", "Stop auto production", "Pause after this" | `stop_auto_production` | none |
+| “继续写下一章”“继续” | `continue_next_unit` | 无 |
+| “通过”“批准这一章” | `approve_current_unit` | 明确通过 |
+| “打回，原因是主角动机不可信” | `reject_current_unit` | 打回原因 |
+| “修改后再给我看”“钩子再强一点” | `revise_current_unit` | 修改方向 |
+| “现在进度如何”“状态” | `show_status` | 无 |
+| “给我看待审章节”“我现在要审什么？” | `show_pending_review` | 无 |
+| “先停一下”“这一章之后暂停” | `stop_auto_production` | 无 |
 
-## Routing Rules
+## 路由规则
 
-Before acting on any intent, the AI must recover current state by running or using the equivalent of:
+执行任何意图前，AI 必须先恢复当前状态，等价于运行：
 
 ```text
 storymaker status
 storymaker resume
 ```
 
-The recovered workflow state decides the path:
+恢复出的工作流状态决定安全路径：
 
-| Workflow state | Safe behavior |
+| 工作流状态 | 安全行为 |
 | --- | --- |
-| `idle` or `ready_to_produce` | `continue_next_unit` may start the next production unit. |
-| `awaiting_user_review` | Show the pending draft and report; do not produce another unit unless the user explicitly rejects, approves, or asks to revise. |
-| `producing` | Resume or report the active run; do not start a second run. |
-| `blocked` | Show the blocker and suggested recovery action. |
+| `idle` 或 `ready_to_produce` | `continue_next_unit` 可以启动下一工作单元。 |
+| `awaiting_user_review` | 展示待审草稿和报告；除非用户明确通过、打回或要求修改，否则不要生成新单元。 |
+| `producing` | 恢复或汇报正在运行的任务；不要启动第二个任务。 |
+| `blocked` | 展示阻塞原因和建议恢复动作。 |
 
-## Approval Boundary
+## 通过边界
 
-Approval must be explicit. The AI must not convert `continue_next_unit`, `show_pending_review`, praise, silence, or ambiguous feedback into `approve_current_unit`.
+通过必须明确。AI 不得把“继续”“看看下一版”“还行”“没意见”或沉默理解为 `approve_current_unit`。
 
-Valid approval examples:
+有效通过示例：
 
 ```text
 通过
-Approved
-Approve chapter 12
+批准
+通过第 12 章
 可以，提交知识库
 ```
 
-Invalid approval examples:
+无效通过示例：
 
 ```text
-Looks good so far
-Continue
-Show me the next version
-No comments
+看起来还不错
+继续
+给我看下一版
+暂时没意见
 ```
 
-If the user rejects or asks for revision, the AI should preserve the staged draft and staged facts separately until a later explicit approval.
+如果用户打回或要求修改，AI 应保留当前草稿和待确认事实，直到后续明确通过。
 
-## Adapter Contract
+## 适配器契约
 
-Adapters should expose these intents to the user as natural language, not as a required command chain. Internally, adapters may call CLI commands, but user-facing daily work should look like:
+适配器应把这些意图包装成自然语言体验，而不是要求用户记住命令链。内部可以调用 CLI，但面向用户的日常工作应类似：
 
 ```text
-User: Continue writing the next chapter.
-AI: Chapter 0012 is complete. Here is the draft and quality report. Approve it?
+用户：继续写下一章。
+AI：第 0012 章已完成。这是正文和质量报告。是否通过？
 ```
 
-The intent protocol is a routing layer only. It does not implement `storymaker continue`, run production, or change workflow state by itself.
+意图协议只是路由层，本身不实现 `storymaker continue`，不运行生产，也不改变工作流状态。

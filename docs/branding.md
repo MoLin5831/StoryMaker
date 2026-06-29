@@ -1,74 +1,56 @@
-# StoryMaker Branding
+# StoryMaker 命名与兼容约定
 
-## Product Name
+## 产品名称
 
-StoryMaker is the user-facing product name for this project.
+用户看到的产品名称统一为 `StoryMaker`。
 
-StoryMaker describes the daily author experience: a creator asks to continue a story, the AI agent advances the workflow, and the user reviews each finished unit.
+StoryMaker 的日常体验是：作者说“继续写下一章”，AI agent 自动推进工作流，生成章节、质量报告和待确认知识更新，然后停在用户审阅关口。
 
-## Runtime Name
+## CLI 命令
 
-StoryOS remains a historical and internal runtime name during the transition. Existing package names, generated files, and relay history may still use StoryOS until each migration task explicitly changes them.
-
-## CLI Names
-
-The target user-facing CLI entry is:
+推荐命令：
 
 ```text
 storymaker
 ```
 
-The existing CLI entry remains supported as a compatibility alias:
+兼容命令：
 
 ```text
 storyctl
 ```
 
-Documentation for new users should prefer `storymaker`. Low-level engineering notes may mention `storyctl` when describing compatibility or current implementation details.
+新文档、新适配器和日常提示词应优先使用 `storymaker`。`storyctl` 只作为兼容入口保留。
 
-## npm Package Name
+## npm 包名
 
-The current npm package remains:
+当前 npm 包名是：
 
 ```text
 @storyos/cli
 ```
 
-That package exposes both `storymaker` and `storyctl`. The package name `@storymaker/cli` is not published yet. See [Publishing strategy](publishing.md) for the package-name migration policy.
+这个包会暴露 `storymaker` 和 `storyctl` 两个命令。`@storymaker/cli` 尚未发布，安装说明不要引导用户使用它。
 
-## Runtime Directory
+## 本地运行状态目录
 
-Existing projects currently store local runtime state under:
+当前项目运行状态目录是：
 
 ```text
 .storyos/
 ```
 
-This directory must remain readable and writable during the transition. StoryMaker must not force-migrate user projects to `.storymaker/` until a dedicated migration command and rollback strategy exist.
+这是现有 CLI、示例项目和测试使用的实际目录名。用户不需要手动创建、移动或重命名它。
 
-The recommended transition rule is:
+如果 `storymaker doctor` 提到 `.storyos/` 或 `.storymaker/`，请按命令输出理解为本地状态目录兼容检查，不要把它当成需要用户手动迁移的步骤。
 
-```text
-Prefer .storyos/ for existing projects.
-Allow .storymaker/ only when a later compatibility task explicitly implements it.
-Never silently move user runtime data.
-```
+## 用户体验原则
 
-`storymaker doctor` reports the runtime directory strategy explicitly:
-
-- `.storyos active` means the current project is using the compatibility runtime directory.
-- `.storyos active; .storymaker also exists` means `.storymaker/` was detected, but the CLI still uses `.storyos/` and does not move data.
-- `.storymaker detected, but .storyos remains the active compatibility runtime` means a `.storymaker/` directory exists without the required `.storyos/` runtime files. This is reported for visibility only; StoryMaker does not create, rename, copy, or delete runtime data automatically.
-
-Until a dedicated migration command exists, users do not need to rename `.storyos/` to `.storymaker/`.
-
-## User Experience Principle
-
-Users should not need to remember the command chain behind daily production. The intended daily interaction is:
+用户不应该记住底层命令链。推荐的日常交互是：
 
 ```text
-User: continue writing the next chapter
-StoryMaker: the chapter is complete; here is the draft and quality report. Approve it?
+用户：继续写下一章。
+StoryMaker：第 0012 章已完成。这是正文和质量报告。是否通过？
 ```
 
-The CLI remains the deterministic substrate used by Codex, Claude Code, Dashboard, tests, and advanced users.
+CLI 是 Codex、Claude Code、Dashboard、测试和高级用户使用的确定性底座；普通作者只需要审阅结果并给出明确决定。
