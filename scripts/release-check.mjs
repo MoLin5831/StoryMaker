@@ -34,9 +34,27 @@ const assertFileContains = async (relativePath, expected) => {
   }
 };
 
+const assertCliVersionConsistency = async () => {
+  const packageJson = JSON.parse(await readFile(join(rootDir, "packages/cli/package.json"), "utf8"));
+  const metadata = await readFile(join(rootDir, "packages/cli/src/cli-metadata.ts"), "utf8");
+  const versionMatch = metadata.match(/export const VERSION = "([^"]+)";/);
+
+  if (!versionMatch) {
+    throw new Error("Could not find CLI VERSION in packages/cli/src/cli-metadata.ts");
+  }
+
+  if (packageJson.version !== versionMatch[1]) {
+    throw new Error(
+      `CLI version mismatch: package.json has ${packageJson.version}, cli-metadata.ts has ${versionMatch[1]}`
+    );
+  }
+};
+
 const runNodeLauncher = (relativePath) => {
   run(process.execPath, [join(rootDir, relativePath), "--version"]);
 };
+
+await assertCliVersionConsistency();
 
 run("git", ["diff", "--check"]);
 run("corepack", ["pnpm", "lint"]);
