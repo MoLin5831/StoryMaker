@@ -59,7 +59,7 @@ jobs:
           test -x bin/platform/storyctl-macos
           bin/platform/storyctl-linux --version
           bin/platform/storyctl-macos --version
-          node bin/platform/storyctl.exe --version
+          bin/platform/storyctl.exe --version
 
       - name: Package smoke
         run: pnpm package:cli-smoke

@@ -52,7 +52,9 @@ if (process.platform === "win32") {
     cwd: rootDir
   });
 } else {
-  runNodeLauncher("bin/platform/storyctl.exe");
+  run(join(rootDir, "bin", "platform", "storyctl.exe"), ["--version"], {
+    cwd: rootDir
+  });
 }
 
 console.log("StoryMaker release readiness check passed.");
