@@ -1,0 +1,4 @@
+interface:
+  display_name: "StoryMaker Chinese Webnovel"
+  short_description: "Chinese webnovel setup, drafting, and review for StoryMaker."
+  default_prompt: "Use $storymaker-chinese-webnovel to guide Chinese webnovel setup, chapter drafting, and quality review in a StoryMaker project."

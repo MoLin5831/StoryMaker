@@ -27,6 +27,7 @@ storymaker draft submit --unit chapter-0001 --from path/to/draft.md --title "章
 - [快速开始](docs/quickstart.md)
 - [日常使用](docs/daily-usage.md)
 - [示例项目](examples/README.md)
+- [推荐 Agent Skill](docs/agent-skills.md)
 - [命名与兼容约定](docs/branding.md)
 - [发布策略](docs/publishing.md)
 
@@ -58,6 +59,7 @@ packages/
 templates/
 docs/
 examples/
+skills/
 scripts/
 ```
 

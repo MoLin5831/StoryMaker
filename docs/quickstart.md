@@ -50,7 +50,13 @@ storymaker adapter install claude-code --cli-only
 
 建议一个项目先由一个 agent 接管。多个适配器可以共存，但同一轮写作最好由同一个 agent 负责上下文。
 
-## 3. 日常写作
+## 3. 可选：安装中文网文 skill
+
+如果你写中文网络小说，可以安装仓库内推荐的 `storymaker-chinese-webnovel` skill，让 Codex 或 Claude Code 更擅长前期设定引导、章节规划、正文写作和质量审查。
+
+安装方式见 [推荐 Agent Skill](agent-skills.md)。
+
+## 4. 日常写作
 
 完成前期设定后，日常使用应尽量像正常对话：
 
@@ -73,7 +79,7 @@ AI：第 0001 章已完成。这是正文和质量报告。是否通过？
 
 AI agent 会在后台调用 StoryMaker。普通用户不需要手动串起 `status`、`context`、`produce`、`index`、`approve`、`resume` 等命令。
 
-## 4. 常用手动命令
+## 5. 常用手动命令
 
 高级用户可以直接检查项目状态：
 
@@ -86,7 +92,7 @@ storymaker export --format md
 
 `storyctl` 对同一批命令仍然可用。
 
-## 5. 从源码启动 Dashboard
+## 6. 从源码启动 Dashboard
 
 如果你在 monorepo 中运行 StoryMaker，而不是使用已安装包，请先构建 Dashboard 运行时：
 
